@@ -8,7 +8,7 @@ import { useAuth } from '@/components/AuthContext';
 type Row = Listing & { thumb: string | null };
 
 function formatPrice(p: number) {
-  return '$' + Number(p).toLocaleString('en-US');
+  return 'AED ' + Number(p).toLocaleString('en-US');
 }
 
 function timeAgo(ts: string) {

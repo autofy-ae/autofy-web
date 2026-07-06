@@ -6,15 +6,19 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/components/AuthContext';
 import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS } from '@/lib/vehicleOptions';
+import { MAKE_MODELS } from '@/lib/carModels';
 
 const MAX_PHOTOS = 10;
+const MAKES = Object.keys(MAKE_MODELS).sort();
 
 export default function SellPage() {
   const router = useRouter();
   const { user, profile, loading } = useAuth();
 
   const [make, setMake] = useState('');
+  const [customMake, setCustomMake] = useState('');
   const [model, setModel] = useState('');
+  const [customModel, setCustomModel] = useState('');
   const [trim, setTrim] = useState('');
   const [year, setYear] = useState('');
   const [price, setPrice] = useState('');
@@ -59,7 +63,9 @@ export default function SellPage() {
 
   async function submitListing() {
     setError('');
-    if (!make.trim() || !model.trim() || !year || !price) {
+    const finalMake = make === 'Other' ? customMake.trim() : make;
+    const finalModel = model === 'Other' ? customModel.trim() : model;
+    if (!finalMake || !finalModel || !year || !price) {
       setError('Make, model, year, and price are required.');
       return;
     }
@@ -70,8 +76,8 @@ export default function SellPage() {
       .from('listings')
       .insert({
         owner_id: user!.id,
-        make: make.trim(),
-        model: model.trim(),
+        make: finalMake,
+        model: finalModel,
         year: Number(year),
         price: Number(price),
         mileage: mileage ? Number(mileage) : null,
@@ -131,8 +137,28 @@ export default function SellPage() {
         </div>
 
         <div className="row2">
-          <div className="field"><label>Make</label><input type="text" placeholder="Toyota" value={make} onChange={(e) => setMake(e.target.value)} /></div>
-          <div className="field"><label>Model</label><input type="text" placeholder="Camry" value={model} onChange={(e) => setModel(e.target.value)} /></div>
+          <div className="field">
+            <label>Make</label>
+            <select value={make} onChange={(e) => { setMake(e.target.value); setModel(''); }}>
+              <option value="">Select a make</option>
+              {MAKES.map((m) => (<option key={m} value={m}>{m}</option>))}
+              <option value="Other">Other</option>
+            </select>
+            {make === 'Other' && (
+              <input type="text" placeholder="Type the make" value={customMake} onChange={(e) => setCustomMake(e.target.value)} style={{ marginTop: 8 }} />
+            )}
+          </div>
+          <div className="field">
+            <label>Model</label>
+            <select value={model} onChange={(e) => setModel(e.target.value)} disabled={!make}>
+              <option value="">{make ? 'Select a model' : 'Select a make first'}</option>
+              {make && make !== 'Other' && (MAKE_MODELS[make] || []).map((m) => (<option key={m} value={m}>{m}</option>))}
+              <option value="Other">Other</option>
+            </select>
+            {model === 'Other' && (
+              <input type="text" placeholder="Type the model" value={customModel} onChange={(e) => setCustomModel(e.target.value)} style={{ marginTop: 8 }} />
+            )}
+          </div>
         </div>
         <div className="row2">
           <div className="field"><label>Trim (optional)</label><input type="text" placeholder="SE, Limited, etc." value={trim} onChange={(e) => setTrim(e.target.value)} /></div>
@@ -146,7 +172,7 @@ export default function SellPage() {
         </div>
         <div className="row2">
           <div className="field"><label>Year</label><input type="number" placeholder="2019" min={1950} max={2027} value={year} onChange={(e) => setYear(e.target.value)} /></div>
-          <div className="field"><label>Price (USD)</label><input type="number" placeholder="14500" min={0} value={price} onChange={(e) => setPrice(e.target.value)} /></div>
+          <div className="field"><label>Price (AED)</label><input type="number" placeholder="53000" min={0} value={price} onChange={(e) => setPrice(e.target.value)} /></div>
         </div>
         <div className="row2">
           <div className="field"><label>Kilometers (optional)</label><input type="number" placeholder="62000" min={0} value={mileage} onChange={(e) => setMileage(e.target.value)} /></div>

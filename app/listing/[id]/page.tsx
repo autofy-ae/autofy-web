@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { supabase, Listing, ListingPhoto, Profile } from '@/lib/supabaseClient';
 
 function formatPrice(p: number) {
-  return '$' + Number(p).toLocaleString('en-US');
+  return 'AED ' + Number(p).toLocaleString('en-US');
 }
 
 function timeAgo(ts: string) {

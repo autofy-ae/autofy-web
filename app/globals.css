@@ -61,6 +61,8 @@ main.wrap { max-width: 1080px; margin: 0 auto; padding: 28px 24px 80px; }
 .btn.danger { background: var(--maroon); color: var(--paper); }
 .btn.danger:hover { background: var(--maroon-bright); }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-highlight { font-family: 'Anton', sans-serif; font-weight: 400; text-transform: uppercase; letter-spacing: 0.03em; font-size: 13px; background: var(--paper); color: var(--maroon); border: 2px solid var(--maroon); padding: 11px 21px; border-radius: 7px; cursor: pointer; box-shadow: 0 0 0 3px rgba(138,21,24,0.08); transition: background .15s, color .15s; }
+.btn-highlight:hover { background: var(--maroon); color: var(--paper); }
 
 .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 26px; max-width: 640px; }
 .panel h2 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: 22px; margin: 0 0 4px; text-transform: uppercase; color: var(--black); }

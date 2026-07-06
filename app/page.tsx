@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { supabase, Listing } from '@/lib/supabaseClient';
 import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS } from '@/lib/vehicleOptions';
+import { MAKE_MODELS } from '@/lib/carModels';
 
 type Row = Listing & { thumb: string | null };
 
@@ -16,7 +17,7 @@ const COMMON_MAKES = [
 ];
 
 function formatPrice(p: number) {
-  return '$' + Number(p).toLocaleString('en-US');
+  return 'AED ' + Number(p).toLocaleString('en-US');
 }
 
 function timeAgo(ts: string) {
@@ -41,6 +42,7 @@ export default function BrowsePage() {
   const [trim, setTrim] = useState('');
   const [specification, setSpecification] = useState('');
   const [minYear, setMinYear] = useState('');
+  const [maxYear, setMaxYear] = useState('');
   const [minKm, setMinKm] = useState('');
   const [maxKm, setMaxKm] = useState('');
   const [interiorColor, setInteriorColor] = useState('');
@@ -88,25 +90,33 @@ export default function BrowsePage() {
     return Array.from(new Set([...COMMON_MAKES, ...fromListings])).sort();
   }, [rows]);
 
+  const availableModels = useMemo(() => {
+    if (make && MAKE_MODELS[make]) return MAKE_MODELS[make];
+    const allModels = Object.values(MAKE_MODELS).flat();
+    const fromListings = rows.map((r) => r.model);
+    return Array.from(new Set([...allModels, ...fromListings])).sort();
+  }, [make, rows]);
+
   const quickActive = make || model || minPrice || maxPrice;
-  const advancedActive = trim || specification || minYear || minKm || maxKm || interiorColor ||
+  const advancedActive = trim || specification || minYear || maxYear || minKm || maxKm || interiorColor ||
     exteriorColor || drivetrain || fuelType || engine || transmission || seats || minHp || maxHp;
 
   function clearAll() {
     setMake(''); setModel(''); setMinPrice(''); setMaxPrice('');
-    setTrim(''); setSpecification(''); setMinYear(''); setMinKm(''); setMaxKm('');
+    setTrim(''); setSpecification(''); setMinYear(''); setMaxYear(''); setMinKm(''); setMaxKm('');
     setInteriorColor(''); setExteriorColor(''); setDrivetrain(''); setFuelType('');
     setEngine(''); setTransmission(''); setSeats(''); setMinHp(''); setMaxHp('');
   }
 
   const filtered = rows.filter((r) => {
     if (make && r.make !== make) return false;
-    if (model && !r.model.toLowerCase().includes(model.toLowerCase())) return false;
+    if (model && r.model !== model) return false;
     if (minPrice && r.price < Number(minPrice)) return false;
     if (maxPrice && r.price > Number(maxPrice)) return false;
     if (trim && !(r.trim || '').toLowerCase().includes(trim.toLowerCase())) return false;
     if (specification && r.specification !== specification) return false;
     if (minYear && r.year < Number(minYear)) return false;
+    if (maxYear && r.year > Number(maxYear)) return false;
     if (minKm && (r.mileage ?? -1) < Number(minKm)) return false;
     if (maxKm && (r.mileage ?? Infinity) > Number(maxKm)) return false;
     if (interiorColor && !(r.interior_color || '').toLowerCase().includes(interiorColor.toLowerCase())) return false;
@@ -139,18 +149,21 @@ export default function BrowsePage() {
       <div className="filter-bar">
         <div className="f-field">
           <label>Make</label>
-          <select value={make} onChange={(e) => setMake(e.target.value)}>
+          <select value={make} onChange={(e) => { setMake(e.target.value); setModel(''); }}>
             <option value="">All makes</option>
             {makes.map((m) => (<option key={m} value={m}>{m}</option>))}
           </select>
         </div>
         <div className="f-field">
           <label>Model</label>
-          <input type="text" placeholder="Any" value={model} onChange={(e) => setModel(e.target.value)} />
+          <select value={model} onChange={(e) => setModel(e.target.value)}>
+            <option value="">All models</option>
+            {availableModels.map((m) => (<option key={m} value={m}>{m}</option>))}
+          </select>
         </div>
         <div className="f-field">
           <label>Min price</label>
-          <input type="number" placeholder="$0" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} />
+          <input type="number" placeholder="AED 0" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} />
         </div>
         <div className="f-field">
           <label>Max price</label>
@@ -159,7 +172,7 @@ export default function BrowsePage() {
       </div>
 
       <div style={{ display: 'flex', gap: 10, marginBottom: showMore ? 12 : 22, flexWrap: 'wrap' }}>
-        <button className="btn secondary" onClick={() => setShowMore(!showMore)}>
+        <button className="btn-highlight" onClick={() => setShowMore(!showMore)}>
           {showMore ? 'Hide filters' : 'More filters'}{advancedActive ? ' •' : ''}
         </button>
         {(quickActive || advancedActive) && (
@@ -183,6 +196,10 @@ export default function BrowsePage() {
           <div className="f-field">
             <label>Year, from</label>
             <input type="number" placeholder="Any" value={minYear} onChange={(e) => setMinYear(e.target.value)} />
+          </div>
+          <div className="f-field">
+            <label>Year, to</label>
+            <input type="number" placeholder="Any" value={maxYear} onChange={(e) => setMaxYear(e.target.value)} />
           </div>
           <div className="f-field">
             <label>Min km</label>
