@@ -81,8 +81,18 @@ export default function ListingDetailPage() {
 
       <div className="spec-grid">
         <div><div className="k">Year</div><div className="v">{listing.year}</div></div>
-        <div><div className="k">Mileage</div><div className="v">{listing.mileage ? `${listing.mileage.toLocaleString()} mi` : '—'}</div></div>
+        <div><div className="k">Trim</div><div className="v">{listing.trim || '—'}</div></div>
+        <div><div className="k">Kilometers</div><div className="v">{listing.mileage ? `${listing.mileage.toLocaleString()} km` : '—'}</div></div>
+        <div><div className="k">Specification</div><div className="v">{listing.specification || '—'}</div></div>
         <div><div className="k">Location</div><div className="v">{listing.location || '—'}</div></div>
+        <div><div className="k">Exterior color</div><div className="v">{listing.exterior_color || '—'}</div></div>
+        <div><div className="k">Interior color</div><div className="v">{listing.interior_color || '—'}</div></div>
+        <div><div className="k">Drivetrain</div><div className="v">{listing.drivetrain || '—'}</div></div>
+        <div><div className="k">Fuel type</div><div className="v">{listing.fuel_type || '—'}</div></div>
+        <div><div className="k">Engine</div><div className="v">{listing.engine || '—'}</div></div>
+        <div><div className="k">Transmission</div><div className="v">{listing.transmission || '—'}</div></div>
+        <div><div className="k">Seats</div><div className="v">{listing.seats ? (listing.seats >= 8 ? '8+' : listing.seats) : '—'}</div></div>
+        <div><div className="k">Horsepower</div><div className="v">{listing.horsepower ? `${listing.horsepower} hp` : '—'}</div></div>
         <div><div className="k">Listed</div><div className="v">{timeAgo(listing.created_at)}</div></div>
       </div>
 

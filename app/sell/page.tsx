@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/components/AuthContext';
+import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS } from '@/lib/vehicleOptions';
 
 const MAX_PHOTOS = 10;
 
@@ -14,11 +15,21 @@ export default function SellPage() {
 
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
+  const [trim, setTrim] = useState('');
   const [year, setYear] = useState('');
   const [price, setPrice] = useState('');
   const [mileage, setMileage] = useState('');
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
+  const [specification, setSpecification] = useState('');
+  const [interiorColor, setInteriorColor] = useState('');
+  const [exteriorColor, setExteriorColor] = useState('');
+  const [drivetrain, setDrivetrain] = useState('');
+  const [fuelType, setFuelType] = useState('');
+  const [engine, setEngine] = useState('');
+  const [transmission, setTransmission] = useState('');
+  const [seats, setSeats] = useState('');
+  const [horsepower, setHorsepower] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -65,7 +76,17 @@ export default function SellPage() {
         price: Number(price),
         mileage: mileage ? Number(mileage) : null,
         location: location.trim() || null,
-        description: description.trim() || null
+        description: description.trim() || null,
+        trim: trim.trim() || null,
+        specification: specification || null,
+        interior_color: interiorColor.trim() || null,
+        exterior_color: exteriorColor.trim() || null,
+        drivetrain: drivetrain || null,
+        fuel_type: fuelType || null,
+        engine: engine || null,
+        transmission: transmission || null,
+        seats: seats ? Number(seats) : null,
+        horsepower: horsepower ? Number(horsepower) : null
       })
       .select()
       .single();
@@ -114,12 +135,68 @@ export default function SellPage() {
           <div className="field"><label>Model</label><input type="text" placeholder="Camry" value={model} onChange={(e) => setModel(e.target.value)} /></div>
         </div>
         <div className="row2">
+          <div className="field"><label>Trim (optional)</label><input type="text" placeholder="SE, Limited, etc." value={trim} onChange={(e) => setTrim(e.target.value)} /></div>
+          <div className="field">
+            <label>Specification</label>
+            <select value={specification} onChange={(e) => setSpecification(e.target.value)}>
+              <option value="">Not specified</option>
+              {SPECIFICATIONS.map((s) => (<option key={s} value={s}>{s}</option>))}
+            </select>
+          </div>
+        </div>
+        <div className="row2">
           <div className="field"><label>Year</label><input type="number" placeholder="2019" min={1950} max={2027} value={year} onChange={(e) => setYear(e.target.value)} /></div>
           <div className="field"><label>Price (USD)</label><input type="number" placeholder="14500" min={0} value={price} onChange={(e) => setPrice(e.target.value)} /></div>
         </div>
         <div className="row2">
-          <div className="field"><label>Mileage (optional)</label><input type="number" placeholder="62000" min={0} value={mileage} onChange={(e) => setMileage(e.target.value)} /></div>
-          <div className="field"><label>Location (optional)</label><input type="text" placeholder="Austin, TX" value={location} onChange={(e) => setLocation(e.target.value)} /></div>
+          <div className="field"><label>Kilometers (optional)</label><input type="number" placeholder="62000" min={0} value={mileage} onChange={(e) => setMileage(e.target.value)} /></div>
+          <div className="field"><label>Location (optional)</label><input type="text" placeholder="Sharjah, UAE" value={location} onChange={(e) => setLocation(e.target.value)} /></div>
+        </div>
+        <div className="row2">
+          <div className="field"><label>Interior color (optional)</label><input type="text" placeholder="Black" value={interiorColor} onChange={(e) => setInteriorColor(e.target.value)} /></div>
+          <div className="field"><label>Exterior color (optional)</label><input type="text" placeholder="White" value={exteriorColor} onChange={(e) => setExteriorColor(e.target.value)} /></div>
+        </div>
+        <div className="row2">
+          <div className="field">
+            <label>Drivetrain</label>
+            <select value={drivetrain} onChange={(e) => setDrivetrain(e.target.value)}>
+              <option value="">Not specified</option>
+              {DRIVETRAINS.map((d) => (<option key={d} value={d}>{d}</option>))}
+            </select>
+          </div>
+          <div className="field">
+            <label>Fuel type</label>
+            <select value={fuelType} onChange={(e) => setFuelType(e.target.value)}>
+              <option value="">Not specified</option>
+              {FUEL_TYPES.map((f) => (<option key={f} value={f}>{f}</option>))}
+            </select>
+          </div>
+        </div>
+        <div className="row2">
+          <div className="field">
+            <label>Engine</label>
+            <select value={engine} onChange={(e) => setEngine(e.target.value)}>
+              <option value="">Not specified</option>
+              {ENGINES.map((e2) => (<option key={e2} value={e2}>{e2}</option>))}
+            </select>
+          </div>
+          <div className="field">
+            <label>Transmission</label>
+            <select value={transmission} onChange={(e) => setTransmission(e.target.value)}>
+              <option value="">Not specified</option>
+              {TRANSMISSIONS.map((t) => (<option key={t} value={t}>{t}</option>))}
+            </select>
+          </div>
+        </div>
+        <div className="row2">
+          <div className="field">
+            <label>Seats</label>
+            <select value={seats} onChange={(e) => setSeats(e.target.value)}>
+              <option value="">Not specified</option>
+              {SEAT_OPTIONS.map((s) => (<option key={s} value={s}>{s === 8 ? '8 or more' : s}</option>))}
+            </select>
+          </div>
+          <div className="field"><label>Horsepower (optional)</label><input type="number" placeholder="300" min={0} value={horsepower} onChange={(e) => setHorsepower(e.target.value)} /></div>
         </div>
         <div className="field">
           <label>Description</label>

@@ -23,6 +23,16 @@ export type Listing = {
   status: string;
   created_at: string;
   expires_at: string;
+  trim: string | null;
+  specification: string | null;
+  interior_color: string | null;
+  exterior_color: string | null;
+  drivetrain: string | null;
+  fuel_type: string | null;
+  engine: string | null;
+  transmission: string | null;
+  seats: number | null;
+  horsepower: number | null;
 };
 
 export type Profile = {
