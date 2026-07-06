@@ -80,7 +80,7 @@ export default function LoginPage() {
             <form onSubmit={handleSignUp}>
               <div className="field">
                 <label htmlFor="su-name">Full name</label>
-                <input id="su-name" type="text" placeholder="Tony Stark" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                <input id="su-name" type="text" placeholder="Tony Stank" value={fullName} onChange={(e) => setFullName(e.target.value)} />
               </div>
               <div className="field">
                 <label htmlFor="su-phone">Phone number</label>
