@@ -6,6 +6,14 @@ import { supabase, Listing } from '@/lib/supabaseClient';
 
 type Row = Listing & { thumb: string | null };
 
+const COMMON_MAKES = [
+  'Acura', 'Audi', 'BMW', 'Buick', 'Cadillac', 'Chevrolet', 'Chrysler', 'Dodge',
+  'Ford', 'GMC', 'Genesis', 'Honda', 'Hyundai', 'Infiniti', 'Jaguar', 'Jeep',
+  'Kia', 'Land Rover', 'Lexus', 'Lincoln', 'Mazda', 'Mercedes-Benz', 'Mini',
+  'Mitsubishi', 'Nissan', 'Porsche', 'Ram', 'Subaru', 'Tesla', 'Toyota',
+  'Volkswagen', 'Volvo'
+];
+
 function formatPrice(p: number) {
   return '$' + Number(p).toLocaleString('en-US');
 }
@@ -57,7 +65,10 @@ export default function BrowsePage() {
     load();
   }, []);
 
-  const makes = useMemo(() => Array.from(new Set(rows.map((r) => r.make))).sort(), [rows]);
+  const makes = useMemo(() => {
+    const fromListings = rows.map((r) => r.make);
+    return Array.from(new Set([...COMMON_MAKES, ...fromListings])).sort();
+  }, [rows]);
 
   const filtered = rows.filter((r) => {
     if (make && r.make !== make) return false;
