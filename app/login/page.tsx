@@ -75,13 +75,12 @@ export default function LoginPage() {
           <>
             <h2>Open your Autofy account</h2>
             <p className="sub">
-              One quick form. Your name, email, and phone are what buyers and sellers use to reach you — no extra
-              passwords floating around, it's free.
+              One quick form. Your name, email, and phone are what buyers and sellers use to reach you.
             </p>
             <form onSubmit={handleSignUp}>
               <div className="field">
                 <label htmlFor="su-name">Full name</label>
-                <input id="su-name" type="text" placeholder="Jordan Rivera" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                <input id="su-name" type="text" placeholder="Tony Stark" value={fullName} onChange={(e) => setFullName(e.target.value)} />
               </div>
               <div className="field">
                 <label htmlFor="su-phone">Phone number</label>
