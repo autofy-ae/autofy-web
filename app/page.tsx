@@ -33,6 +33,7 @@ export default function BrowsePage() {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
   const [showMore, setShowMore] = useState(false);
+  const [justSearched, setJustSearched] = useState(false);
 
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
@@ -108,6 +109,12 @@ export default function BrowsePage() {
     setEngine(''); setTransmission(''); setSeats(''); setMinHp(''); setMaxHp('');
   }
 
+  function handleSearch() {
+    document.getElementById('results-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setJustSearched(true);
+    setTimeout(() => setJustSearched(false), 900);
+  }
+
   const filtered = rows.filter((r) => {
     if (make && r.make !== make) return false;
     if (model && r.model !== model) return false;
@@ -172,6 +179,7 @@ export default function BrowsePage() {
       </div>
 
       <div style={{ display: 'flex', gap: 10, marginBottom: showMore ? 12 : 22, flexWrap: 'wrap' }}>
+        <button className="btn" onClick={handleSearch}>Search</button>
         <button className="btn-highlight" onClick={() => setShowMore(!showMore)}>
           {showMore ? 'Hide filters' : 'More filters'}{advancedActive ? ' •' : ''}
         </button>
@@ -269,9 +277,16 @@ export default function BrowsePage() {
         </div>
       )}
 
-      <div className="section-title" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+      <div id="results-heading" className="section-title" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16, scrollMarginTop: 84 }}>
         <h2 className="display" style={{ fontSize: 20, margin: 0 }}>On the lot</h2>
-        <span className="mono" style={{ fontSize: 12, color: 'var(--ink-soft)' }}>
+        <span
+          className="mono"
+          style={{
+            fontSize: 12,
+            color: justSearched ? 'var(--maroon)' : 'var(--ink-soft)',
+            transition: 'color .3s'
+          }}
+        >
           {loading ? 'Loading…' : `${filtered.length} listing${filtered.length === 1 ? '' : 's'}`}
         </span>
       </div>
