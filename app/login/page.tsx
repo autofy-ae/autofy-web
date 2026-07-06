@@ -113,7 +113,7 @@ export default function LoginPage() {
               </div>
               <div className="field">
                 <label htmlFor="su-email">Email</label>
-                <input id="su-email" type="email" placeholder="jordan@email.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input id="su-email" type="email" placeholder="tonystank@email.com" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
               <div className="field">
                 <label htmlFor="su-pass">Password</label>

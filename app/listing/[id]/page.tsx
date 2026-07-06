@@ -36,7 +36,7 @@ export default function ListingDetailPage() {
 
       const [{ data: p }, { data: s }] = await Promise.all([
         supabase.from('listing_photos').select('*').eq('listing_id', id).order('position', { ascending: true }),
-        supabase.from('profiles').select('*').eq('id', l.owner_id).maybeSingle()
+        supabase.from('profiles').select('id, full_name, phone, whatsapp_preferred').eq('id', l.owner_id).maybeSingle()
       ]);
       setPhotos((p || []) as ListingPhoto[]);
       setSeller(s as Profile | null);
@@ -118,10 +118,6 @@ export default function ListingDetailPage() {
           <div className="contact-row">
             <span className="num mono">{seller.phone}</span>
             <a href={`tel:${seller.phone.replace(/[^0-9+]/g, '')}`}>Call</a>
-          </div>
-          <div className="contact-row">
-            <span className="mono" style={{ fontSize: 13, color: 'var(--maroon)' }}>{seller.email}</span>
-            <a href={`mailto:${seller.email}`}>Email</a>
           </div>
         </div>
       )}
