@@ -104,7 +104,7 @@ export default function LoginPage() {
             </form>
             <p style={{ fontSize: 13, marginTop: 18 }}>
               Already have an account?{' '}
-              <button onClick={() => { setMode('signin'); setError(''); setNotice(''); }} style={{ background: 'none', border: 'none', color: 'var(--steel)', textDecoration: 'underline', cursor: 'pointer', fontSize: 13 }}>
+              <button onClick={() => { setMode('signin'); setError(''); setNotice(''); }} style={{ background: 'none', border: 'none', color: 'var(--black)', textDecoration: 'underline', cursor: 'pointer', fontSize: 13 }}>
                 Sign in
               </button>
             </p>
@@ -130,7 +130,7 @@ export default function LoginPage() {
             </form>
             <p style={{ fontSize: 13, marginTop: 18 }}>
               New to Autofy?{' '}
-              <button onClick={() => { setMode('signup'); setError(''); setNotice(''); }} style={{ background: 'none', border: 'none', color: 'var(--steel)', textDecoration: 'underline', cursor: 'pointer', fontSize: 13 }}>
+              <button onClick={() => { setMode('signup'); setError(''); setNotice(''); }} style={{ background: 'none', border: 'none', color: 'var(--black)', textDecoration: 'underline', cursor: 'pointer', fontSize: 13 }}>
                 Create an account
               </button>
             </p>

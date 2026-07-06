@@ -77,7 +77,7 @@ export default function ListingDetailPage() {
       <h2 className="display" style={{ fontSize: 24, textTransform: 'none', margin: '0 0 6px' }}>
         {listing.year} {listing.make} {listing.model}
       </h2>
-      <div className="mono" style={{ fontWeight: 700, fontSize: 20, color: 'var(--amber-dark)' }}>{formatPrice(listing.price)}</div>
+      <div className="mono" style={{ fontWeight: 700, fontSize: 20, color: 'var(--maroon)' }}>{formatPrice(listing.price)}</div>
 
       <div className="spec-grid">
         <div><div className="k">Year</div><div className="v">{listing.year}</div></div>
@@ -97,7 +97,7 @@ export default function ListingDetailPage() {
             <a href={`tel:${seller.phone.replace(/[^0-9+]/g, '')}`}>Call</a>
           </div>
           <div className="contact-row">
-            <span className="mono" style={{ fontSize: 13, color: 'var(--amber)' }}>{seller.email}</span>
+            <span className="mono" style={{ fontSize: 13, color: 'var(--maroon)' }}>{seller.email}</span>
             <a href={`mailto:${seller.email}`}>Email</a>
           </div>
         </div>

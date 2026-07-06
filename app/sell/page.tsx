@@ -134,7 +134,7 @@ export default function SellPage() {
               {files.map((f, i) => (
                 <div key={i} style={{ position: 'relative' }}>
                   <img className="thumb" src={URL.createObjectURL(f)} alt="" />
-                  <button type="button" onClick={() => removeFile(i)} style={{ position: 'absolute', top: -6, right: -6, background: 'var(--rust)', color: '#fff', border: 'none', borderRadius: '50%', width: 18, height: 18, fontSize: 11, cursor: 'pointer', lineHeight: 1 }}>×</button>
+                  <button type="button" onClick={() => removeFile(i)} style={{ position: 'absolute', top: -6, right: -6, background: 'var(--maroon)', color: '#fff', border: 'none', borderRadius: '50%', width: 18, height: 18, fontSize: 11, cursor: 'pointer', lineHeight: 1 }}>×</button>
                 </div>
               ))}
             </div>

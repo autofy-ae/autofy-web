@@ -75,6 +75,7 @@ export default function BrowsePage() {
           Autofy is a free, no-fee classifieds board. List your car, browse what's around, and call the owner
           directly — no payments ever move through the site.
         </p>
+        <span className="swoosh"></span>
       </div>
 
       <div className="filter-bar">

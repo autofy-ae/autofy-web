@@ -32,7 +32,7 @@ export default function Navbar() {
               <button onClick={handleSignOut}>Sign out</button>
             </>
           ) : (
-            <Link href="/login" style={{ color: 'var(--amber)', fontSize: 12, textDecoration: 'underline' }}>
+            <Link href="/login" style={{ color: 'var(--maroon)', fontSize: 12, textDecoration: 'underline' }}>
               Sign in / create account
             </Link>
           )}
