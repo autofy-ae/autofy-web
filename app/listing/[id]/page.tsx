@@ -1,0 +1,107 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { supabase, Listing, ListingPhoto, Profile } from '@/lib/supabaseClient';
+
+function formatPrice(p: number) {
+  return '$' + Number(p).toLocaleString('en-US');
+}
+
+function timeAgo(ts: string) {
+  const s = Math.floor((Date.now() - new Date(ts).getTime()) / 1000);
+  if (s < 60) return 'just now';
+  const m = Math.floor(s / 60); if (m < 60) return m + 'm ago';
+  const h = Math.floor(m / 60); if (h < 24) return h + 'h ago';
+  const d = Math.floor(h / 24); if (d < 30) return d + 'd ago';
+  return Math.floor(d / 30) + 'mo ago';
+}
+
+export default function ListingDetailPage() {
+  const params = useParams();
+  const id = params?.id as string;
+  const [listing, setListing] = useState<Listing | null>(null);
+  const [photos, setPhotos] = useState<ListingPhoto[]>([]);
+  const [seller, setSeller] = useState<Profile | null>(null);
+  const [activePhoto, setActivePhoto] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+
+  useEffect(() => {
+    async function load() {
+      setLoading(true);
+      const { data: l } = await supabase.from('listings').select('*').eq('id', id).maybeSingle();
+      if (!l) { setNotFound(true); setLoading(false); return; }
+      setListing(l as Listing);
+
+      const [{ data: p }, { data: s }] = await Promise.all([
+        supabase.from('listing_photos').select('*').eq('listing_id', id).order('position', { ascending: true }),
+        supabase.from('profiles').select('*').eq('id', l.owner_id).maybeSingle()
+      ]);
+      setPhotos((p || []) as ListingPhoto[]);
+      setSeller(s as Profile | null);
+      setLoading(false);
+    }
+    if (id) load();
+  }, [id]);
+
+  if (loading) return <p style={{ color: 'var(--ink-soft)' }}>Loading…</p>;
+  if (notFound || !listing) {
+    return (
+      <div className="empty">
+        <div className="display">Listing not found</div>
+        <p>It may have been removed or taken down by the owner.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ maxWidth: 640, margin: '0 auto' }}>
+      <div className="detail-photo">
+        {photos.length > 0 ? (
+          <img src={photos[activePhoto]?.url} alt={`${listing.year} ${listing.make} ${listing.model}`} />
+        ) : (
+          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#B9C6CF' }} className="display">
+            No photos provided
+          </div>
+        )}
+      </div>
+      {photos.length > 1 && (
+        <div className="thumb-row">
+          {photos.map((p, i) => (
+            <img key={p.id} src={p.url} className={i === activePhoto ? 'active' : ''} onClick={() => setActivePhoto(i)} alt="" />
+          ))}
+        </div>
+      )}
+
+      <h2 className="display" style={{ fontSize: 24, textTransform: 'none', margin: '0 0 6px' }}>
+        {listing.year} {listing.make} {listing.model}
+      </h2>
+      <div className="mono" style={{ fontWeight: 700, fontSize: 20, color: 'var(--amber-dark)' }}>{formatPrice(listing.price)}</div>
+
+      <div className="spec-grid">
+        <div><div className="k">Year</div><div className="v">{listing.year}</div></div>
+        <div><div className="k">Mileage</div><div className="v">{listing.mileage ? `${listing.mileage.toLocaleString()} mi` : '—'}</div></div>
+        <div><div className="k">Location</div><div className="v">{listing.location || '—'}</div></div>
+        <div><div className="k">Listed</div><div className="v">{timeAgo(listing.created_at)}</div></div>
+      </div>
+
+      <div className="desc">{listing.description || 'No description provided.'}</div>
+
+      {seller && (
+        <div className="contact-box">
+          <div className="who">Owner</div>
+          <div className="name display" style={{ textTransform: 'none' }}>{seller.full_name}</div>
+          <div className="contact-row">
+            <span className="num mono">{seller.phone}</span>
+            <a href={`tel:${seller.phone.replace(/[^0-9+]/g, '')}`}>Call</a>
+          </div>
+          <div className="contact-row">
+            <span className="mono" style={{ fontSize: 13, color: 'var(--amber)' }}>{seller.email}</span>
+            <a href={`mailto:${seller.email}`}>Email</a>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
