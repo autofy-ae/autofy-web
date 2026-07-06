@@ -40,6 +40,7 @@ export type Profile = {
   full_name: string;
   phone: string;
   email: string;
+  whatsapp_preferred: boolean;
 };
 
 export type ListingPhoto = {

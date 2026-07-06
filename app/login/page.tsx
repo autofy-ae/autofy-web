@@ -11,6 +11,7 @@ export default function LoginPage() {
   const [fullName, setFullName] = useState('');
   const [countryCode, setCountryCode] = useState('+971');
   const [phone, setPhone] = useState('');
+  const [whatsappPreferred, setWhatsappPreferred] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -34,7 +35,7 @@ export default function LoginPage() {
       email: email.trim(),
       password,
       options: {
-        data: { full_name: fullName.trim(), phone: `${countryCode} ${phone.trim()}` }
+        data: { full_name: fullName.trim(), phone: `${countryCode} ${phone.trim()}`, whatsapp_preferred: whatsappPreferred }
       }
     });
     setBusy(false);
@@ -100,6 +101,15 @@ export default function LoginPage() {
                   <input id="su-phone" type="tel" placeholder="50 123 4567" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ flex: 1 }} />
                 </div>
                 <div className="hint">Shown directly on your listings so buyers can call you.</div>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, fontSize: 13, fontWeight: 400, cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={whatsappPreferred}
+                    onChange={(e) => setWhatsappPreferred(e.target.checked)}
+                    style={{ width: 18, height: 18, minHeight: 'auto', flexShrink: 0 }}
+                  />
+                  Prefer to be contacted on WhatsApp
+                </label>
               </div>
               <div className="field">
                 <label htmlFor="su-email">Email</label>

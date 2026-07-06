@@ -102,6 +102,19 @@ export default function ListingDetailPage() {
         <div className="contact-box">
           <div className="who">Owner</div>
           <div className="name display" style={{ textTransform: 'none' }}>{seller.full_name}</div>
+          {seller.whatsapp_preferred && (
+            <div className="contact-row">
+              <span className="num mono" style={{ fontSize: 13 }}>Prefers WhatsApp</span>
+              <a
+                href={`https://wa.me/${seller.phone.replace(/[^0-9]/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ background: '#25D366', color: '#0B0B0C' }}
+              >
+                WhatsApp
+              </a>
+            </div>
+          )}
           <div className="contact-row">
             <span className="num mono">{seller.phone}</span>
             <a href={`tel:${seller.phone.replace(/[^0-9+]/g, '')}`}>Call</a>
