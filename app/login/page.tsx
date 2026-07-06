@@ -3,11 +3,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
+import { COUNTRY_CODES } from '@/lib/countryCodes';
 
 export default function LoginPage() {
   const router = useRouter();
   const [mode, setMode] = useState<'signin' | 'signup'>('signup');
   const [fullName, setFullName] = useState('');
+  const [countryCode, setCountryCode] = useState('+971');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,7 +34,7 @@ export default function LoginPage() {
       email: email.trim(),
       password,
       options: {
-        data: { full_name: fullName.trim(), phone: phone.trim() }
+        data: { full_name: fullName.trim(), phone: `${countryCode} ${phone.trim()}` }
       }
     });
     setBusy(false);
@@ -84,7 +86,19 @@ export default function LoginPage() {
               </div>
               <div className="field">
                 <label htmlFor="su-phone">Phone number</label>
-                <input id="su-phone" type="tel" placeholder="(555) 019-2834" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <select
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                    style={{ flex: '0 0 130px' }}
+                    aria-label="Country code"
+                  >
+                    {COUNTRY_CODES.map((c) => (
+                      <option key={c.iso} value={c.dial}>{c.iso} {c.dial}</option>
+                    ))}
+                  </select>
+                  <input id="su-phone" type="tel" placeholder="50 123 4567" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ flex: 1 }} />
+                </div>
                 <div className="hint">Shown directly on your listings so buyers can call you.</div>
               </div>
               <div className="field">
