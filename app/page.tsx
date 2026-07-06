@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { supabase, Listing } from '@/lib/supabaseClient';
-import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS } from '@/lib/vehicleOptions';
+import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS } from '@/lib/vehicleOptions';
 import { MAKE_MODELS } from '@/lib/carModels';
 
 type Row = Listing & { thumb: string | null };
@@ -119,8 +119,8 @@ export default function BrowsePage() {
     if (maxYear && r.year > Number(maxYear)) return false;
     if (minKm && (r.mileage ?? -1) < Number(minKm)) return false;
     if (maxKm && (r.mileage ?? Infinity) > Number(maxKm)) return false;
-    if (interiorColor && !(r.interior_color || '').toLowerCase().includes(interiorColor.toLowerCase())) return false;
-    if (exteriorColor && !(r.exterior_color || '').toLowerCase().includes(exteriorColor.toLowerCase())) return false;
+    if (interiorColor && r.interior_color !== interiorColor) return false;
+    if (exteriorColor && r.exterior_color !== exteriorColor) return false;
     if (drivetrain && r.drivetrain !== drivetrain) return false;
     if (fuelType && r.fuel_type !== fuelType) return false;
     if (engine && r.engine !== engine) return false;
@@ -211,11 +211,17 @@ export default function BrowsePage() {
           </div>
           <div className="f-field">
             <label>Interior color</label>
-            <input type="text" placeholder="Any" value={interiorColor} onChange={(e) => setInteriorColor(e.target.value)} />
+            <select value={interiorColor} onChange={(e) => setInteriorColor(e.target.value)}>
+              <option value="">Any</option>
+              {INTERIOR_COLORS.map((c) => (<option key={c} value={c}>{c}</option>))}
+            </select>
           </div>
           <div className="f-field">
             <label>Exterior color</label>
-            <input type="text" placeholder="Any" value={exteriorColor} onChange={(e) => setExteriorColor(e.target.value)} />
+            <select value={exteriorColor} onChange={(e) => setExteriorColor(e.target.value)}>
+              <option value="">Any</option>
+              {EXTERIOR_COLORS.map((c) => (<option key={c} value={c}>{c}</option>))}
+            </select>
           </div>
           <div className="f-field">
             <label>Drive type</label>

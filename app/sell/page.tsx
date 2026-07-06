@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/components/AuthContext';
-import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS } from '@/lib/vehicleOptions';
+import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS } from '@/lib/vehicleOptions';
 import { MAKE_MODELS } from '@/lib/carModels';
 
 const MAX_PHOTOS = 10;
@@ -27,7 +27,9 @@ export default function SellPage() {
   const [description, setDescription] = useState('');
   const [specification, setSpecification] = useState('');
   const [interiorColor, setInteriorColor] = useState('');
+  const [customInteriorColor, setCustomInteriorColor] = useState('');
   const [exteriorColor, setExteriorColor] = useState('');
+  const [customExteriorColor, setCustomExteriorColor] = useState('');
   const [drivetrain, setDrivetrain] = useState('');
   const [fuelType, setFuelType] = useState('');
   const [engine, setEngine] = useState('');
@@ -65,6 +67,8 @@ export default function SellPage() {
     setError('');
     const finalMake = make === 'Other' ? customMake.trim() : make;
     const finalModel = model === 'Other' ? customModel.trim() : model;
+    const finalInteriorColor = interiorColor === 'Other' ? customInteriorColor.trim() : interiorColor;
+    const finalExteriorColor = exteriorColor === 'Other' ? customExteriorColor.trim() : exteriorColor;
     if (!finalMake || !finalModel || !year || !price) {
       setError('Make, model, year, and price are required.');
       return;
@@ -85,8 +89,8 @@ export default function SellPage() {
         description: description.trim() || null,
         trim: trim.trim() || null,
         specification: specification || null,
-        interior_color: interiorColor.trim() || null,
-        exterior_color: exteriorColor.trim() || null,
+        interior_color: finalInteriorColor || null,
+        exterior_color: finalExteriorColor || null,
         drivetrain: drivetrain || null,
         fuel_type: fuelType || null,
         engine: engine || null,
@@ -179,8 +183,26 @@ export default function SellPage() {
           <div className="field"><label>Location (optional)</label><input type="text" placeholder="Sharjah, UAE" value={location} onChange={(e) => setLocation(e.target.value)} /></div>
         </div>
         <div className="row2">
-          <div className="field"><label>Interior color (optional)</label><input type="text" placeholder="Black" value={interiorColor} onChange={(e) => setInteriorColor(e.target.value)} /></div>
-          <div className="field"><label>Exterior color (optional)</label><input type="text" placeholder="White" value={exteriorColor} onChange={(e) => setExteriorColor(e.target.value)} /></div>
+          <div className="field">
+            <label>Interior color (optional)</label>
+            <select value={interiorColor} onChange={(e) => setInteriorColor(e.target.value)}>
+              <option value="">Not specified</option>
+              {INTERIOR_COLORS.map((c) => (<option key={c} value={c}>{c}</option>))}
+            </select>
+            {interiorColor === 'Other' && (
+              <input type="text" placeholder="Type the color" value={customInteriorColor} onChange={(e) => setCustomInteriorColor(e.target.value)} style={{ marginTop: 8 }} />
+            )}
+          </div>
+          <div className="field">
+            <label>Exterior color (optional)</label>
+            <select value={exteriorColor} onChange={(e) => setExteriorColor(e.target.value)}>
+              <option value="">Not specified</option>
+              {EXTERIOR_COLORS.map((c) => (<option key={c} value={c}>{c}</option>))}
+            </select>
+            {exteriorColor === 'Other' && (
+              <input type="text" placeholder="Type the color" value={customExteriorColor} onChange={(e) => setCustomExteriorColor(e.target.value)} style={{ marginTop: 8 }} />
+            )}
+          </div>
         </div>
         <div className="row2">
           <div className="field">
