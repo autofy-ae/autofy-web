@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/components/AuthContext';
-import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS } from '@/lib/vehicleOptions';
+import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES } from '@/lib/vehicleOptions';
 import { MAKE_MODELS } from '@/lib/carModels';
 
 const MAX_PHOTOS = 10;
@@ -43,12 +43,22 @@ export default function SellPage() {
 
   if (loading) return null;
 
-  if (!user || !profile) {
+  if (!user) {
     return (
       <div className="empty">
         <div className="display">Sign in to list a car</div>
         <p>You need an Autofy account before you can post a listing.</p>
         <Link href="/login" className="btn">Sign in / create account</Link>
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="empty">
+        <div className="display">Finishing account setup</div>
+        <p>This is taking longer than usual. Try refreshing the page.</p>
+        <button className="btn" onClick={() => window.location.reload()}>Refresh</button>
       </div>
     );
   }
@@ -96,7 +106,7 @@ export default function SellPage() {
         engine: engine || null,
         transmission: transmission || null,
         seats: seats ? Number(seats) : null,
-        horsepower: horsepower ? Number(horsepower) : null
+        horsepower: horsepower || null
       })
       .select()
       .single();
@@ -244,7 +254,13 @@ export default function SellPage() {
               {SEAT_OPTIONS.map((s) => (<option key={s} value={s}>{s === 8 ? '8 or more' : s}</option>))}
             </select>
           </div>
-          <div className="field"><label>Horsepower (optional)</label><input type="number" placeholder="300" min={0} value={horsepower} onChange={(e) => setHorsepower(e.target.value)} /></div>
+          <div className="field">
+            <label>Horsepower range</label>
+            <select value={horsepower} onChange={(e) => setHorsepower(e.target.value)}>
+              <option value="">Not specified</option>
+              {HORSEPOWER_RANGES.map((h) => (<option key={h} value={h}>{h}</option>))}
+            </select>
+          </div>
         </div>
         <div className="field">
           <label>Description</label>

@@ -6,3 +6,4 @@ export const TRANSMISSIONS = ['Automatic', 'Manual'];
 export const SEAT_OPTIONS = [2, 3, 4, 5, 6, 7, 8];
 export const EXTERIOR_COLORS = ['White', 'Black', 'Silver', 'Gray', 'Red', 'Blue', 'Green', 'Yellow', 'Gold', 'Beige', 'Brown', 'Orange', 'Bronze', 'Pink', 'Other'];
 export const INTERIOR_COLORS = ['Black', 'Beige/Tan', 'Brown', 'Gray', 'Red', 'White', 'Blue', 'Green', 'Yellow', 'Orange', 'Other'];
+export const HORSEPOWER_RANGES = ['0-150 bhp', '151-250 bhp', '251-350 bhp', '350-450 bhp', '451+ bhp'];

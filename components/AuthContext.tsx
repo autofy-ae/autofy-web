@@ -25,9 +25,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  async function loadProfile(userId: string) {
-    const { data } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
-    setProfile(data as Profile | null);
+  async function loadProfile(userId: string, attempt = 1): Promise<void> {
+    const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
+    if (error) {
+      console.error('Failed to load profile:', error.message);
+    }
+    if (!data && !error && attempt < 3) {
+      // Row may not have been created by the signup trigger yet - retry briefly.
+      await new Promise((r) => setTimeout(r, 500));
+      return loadProfile(userId, attempt + 1);
+    }
+    setProfile((data as Profile | null) ?? null);
   }
 
   async function refreshProfile() {

@@ -32,7 +32,7 @@ export type Listing = {
   engine: string | null;
   transmission: string | null;
   seats: number | null;
-  horsepower: number | null;
+  horsepower: string | null;
 };
 
 export type Profile = {

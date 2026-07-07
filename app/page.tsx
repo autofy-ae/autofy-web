@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { supabase, Listing } from '@/lib/supabaseClient';
-import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS } from '@/lib/vehicleOptions';
+import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES } from '@/lib/vehicleOptions';
 import { MAKE_MODELS } from '@/lib/carModels';
 
 type Row = Listing & { thumb: string | null };
@@ -53,8 +53,7 @@ export default function BrowsePage() {
   const [engine, setEngine] = useState('');
   const [transmission, setTransmission] = useState('');
   const [seats, setSeats] = useState('');
-  const [minHp, setMinHp] = useState('');
-  const [maxHp, setMaxHp] = useState('');
+  const [horsepower, setHorsepower] = useState('');
 
   useEffect(() => {
     async function load() {
@@ -100,13 +99,13 @@ export default function BrowsePage() {
 
   const quickActive = make || model || minPrice || maxPrice;
   const advancedActive = trim || specification || minYear || maxYear || minKm || maxKm || interiorColor ||
-    exteriorColor || drivetrain || fuelType || engine || transmission || seats || minHp || maxHp;
+    exteriorColor || drivetrain || fuelType || engine || transmission || seats || horsepower;
 
   function clearAll() {
     setMake(''); setModel(''); setMinPrice(''); setMaxPrice('');
     setTrim(''); setSpecification(''); setMinYear(''); setMaxYear(''); setMinKm(''); setMaxKm('');
     setInteriorColor(''); setExteriorColor(''); setDrivetrain(''); setFuelType('');
-    setEngine(''); setTransmission(''); setSeats(''); setMinHp(''); setMaxHp('');
+    setEngine(''); setTransmission(''); setSeats(''); setHorsepower('');
   }
 
   function handleSearch() {
@@ -137,8 +136,7 @@ export default function BrowsePage() {
       const has = r.seats ?? -1;
       if (wanted === 8 ? has < 8 : has !== wanted) return false;
     }
-    if (minHp && (r.horsepower ?? -1) < Number(minHp)) return false;
-    if (maxHp && (r.horsepower ?? Infinity) > Number(maxHp)) return false;
+    if (horsepower && r.horsepower !== horsepower) return false;
     return true;
   });
 
@@ -267,12 +265,11 @@ export default function BrowsePage() {
             </select>
           </div>
           <div className="f-field">
-            <label>Min horsepower</label>
-            <input type="number" placeholder="0" value={minHp} onChange={(e) => setMinHp(e.target.value)} />
-          </div>
-          <div className="f-field">
-            <label>Max horsepower</label>
-            <input type="number" placeholder="Any" value={maxHp} onChange={(e) => setMaxHp(e.target.value)} />
+            <label>Horsepower</label>
+            <select value={horsepower} onChange={(e) => setHorsepower(e.target.value)}>
+              <option value="">Any</option>
+              {HORSEPOWER_RANGES.map((h) => (<option key={h} value={h}>{h}</option>))}
+            </select>
           </div>
         </div>
       )}
