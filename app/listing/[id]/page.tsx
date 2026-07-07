@@ -106,7 +106,7 @@ export default function ListingDetailPage() {
         <div><div className="k">Engine</div><div className="v">{listing.engine || '—'}</div></div>
         <div><div className="k">Transmission</div><div className="v">{listing.transmission || '—'}</div></div>
         <div><div className="k">Seats</div><div className="v">{listing.seats ? (listing.seats >= 8 ? '8+' : listing.seats) : '—'}</div></div>
-        <div><div className="k">Horsepower</div><div className="v">{listing.horsepower || '—'}</div></div>
+        <div><div className="k">Horsepower</div><div className="v">{listing.horsepower_exact ? `${listing.horsepower_exact} bhp` : (listing.horsepower || '—')}</div></div>
         <div><div className="k">Listed</div><div className="v">{timeAgo(listing.created_at)}</div></div>
       </div>
 

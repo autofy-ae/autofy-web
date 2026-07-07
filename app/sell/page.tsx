@@ -38,6 +38,7 @@ export default function SellPage() {
   const [transmission, setTransmission] = useState('');
   const [seats, setSeats] = useState('');
   const [horsepower, setHorsepower] = useState('');
+  const [horsepowerExact, setHorsepowerExact] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [compressing, setCompressing] = useState(false);
   const [dragActive, setDragActive] = useState(false);
@@ -146,7 +147,8 @@ export default function SellPage() {
         engine: engine || null,
         transmission: transmission || null,
         seats: seats ? Number(seats) : null,
-        horsepower: horsepower || null
+        horsepower: horsepower || null,
+        horsepower_exact: horsepowerExact ? Number(horsepowerExact) : null
       })
       .select()
       .single();
@@ -319,6 +321,14 @@ export default function SellPage() {
               <option value="">Not specified</option>
               {HORSEPOWER_RANGES.map((h) => (<option key={h} value={h}>{h}</option>))}
             </select>
+            <input
+              type="number"
+              placeholder="Know the exact bhp? Enter it here (optional)"
+              min={0}
+              value={horsepowerExact}
+              onChange={(e) => setHorsepowerExact(e.target.value)}
+              style={{ marginTop: 8 }}
+            />
           </div>
         </div>
         <div className="field">
