@@ -40,6 +40,7 @@ export default function SellPage() {
   const [horsepower, setHorsepower] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [compressing, setCompressing] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState('');
@@ -66,8 +67,8 @@ export default function SellPage() {
     );
   }
 
-  async function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
-    const picked = Array.from(e.target.files || []).slice(0, MAX_PHOTOS - files.length);
+  async function processFiles(incoming: File[]) {
+    const picked = incoming.filter((f) => f.type.startsWith('image/')).slice(0, MAX_PHOTOS - files.length);
     if (picked.length === 0) return;
     setCompressing(true);
     try {
@@ -78,8 +79,18 @@ export default function SellPage() {
       setFiles((prev) => [...prev, ...picked].slice(0, MAX_PHOTOS));
     } finally {
       setCompressing(false);
-      e.target.value = '';
     }
+  }
+
+  async function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
+    await processFiles(Array.from(e.target.files || []));
+    e.target.value = '';
+  }
+
+  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setDragActive(false);
+    processFiles(Array.from(e.dataTransfer.files || []));
   }
 
   function removeFile(idx: number) {
@@ -316,7 +327,24 @@ export default function SellPage() {
         </div>
         <div className="field">
           <label>Photos (up to {MAX_PHOTOS})</label>
-          <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleFiles} disabled={files.length >= MAX_PHOTOS || compressing} />
+          <div
+            onDragOver={(e) => { e.preventDefault(); if (files.length < MAX_PHOTOS && !compressing) setDragActive(true); }}
+            onDragLeave={() => setDragActive(false)}
+            onDrop={handleDrop}
+            style={{
+              border: `2px dashed ${dragActive ? 'var(--maroon)' : 'var(--line-strong)'}`,
+              borderRadius: 8,
+              padding: '20px 14px',
+              textAlign: 'center',
+              background: dragActive ? 'rgba(138,21,24,0.05)' : 'var(--surface)',
+              transition: 'border-color .15s, background .15s'
+            }}
+          >
+            <p style={{ fontSize: 13, color: 'var(--ink-soft)', margin: '0 0 10px' }}>
+              Drag and drop photos here, or
+            </p>
+            <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleFiles} disabled={files.length >= MAX_PHOTOS || compressing} />
+          </div>
           {compressing && <div className="hint" style={{ marginTop: 6 }}>Compressing photos…</div>}
           <div className="hint">JPEG, PNG, or WebP. Under 5MB each.</div>
           {files.length > 0 && (
