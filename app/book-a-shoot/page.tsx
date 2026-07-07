@@ -9,7 +9,7 @@ export default function BookAShootPage() {
         <h1>Book a <span>shoot.</span></h1>
         <p>
           Our team comes to you and spends 2-3 hours producing high-quality photo and video of your car —
-          for your listing, your socials, or just to have.
+          for your listing, your socials, or to frame it on your wall.
         </p>
         <span className="swoosh"></span>
       </div>
