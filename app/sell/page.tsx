@@ -147,7 +147,7 @@ export default function SellPage() {
       <div className="panel">
         <p className="sub">Fill in the details buyers care about most. It stays up for 30 days.</p>
         <div className="contact-chip">
-          Buyers will contact <b>{profile.full_name}</b> at <b>{profile.phone}</b>{profile.whatsapp_preferred ? ' (WhatsApp)' : ''}.
+          Buyers will contact <b>{profile.full_name}</b> at <b>{profile.phone}</b>{profile.whatsapp_preferred ? ' (Preference - WhatsApp)' : ''}.
         </div>
 
         <div className="row2">
