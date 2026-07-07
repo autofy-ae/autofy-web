@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/components/AuthContext';
 import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES } from '@/lib/vehicleOptions';
+import { UAE_CITIES } from '@/lib/uaeCities';
 import { MAKE_MODELS } from '@/lib/carModels';
 
 const MAX_PHOTOS = 10;
@@ -81,6 +82,22 @@ export default function SellPage() {
     const finalExteriorColor = exteriorColor === 'Other' ? customExteriorColor.trim() : exteriorColor;
     if (!finalMake || !finalModel || !year || !price) {
       setError('Make, model, year, and price are required.');
+      return;
+    }
+    if (!mileage) {
+      setError('Kilometers driven is required.');
+      return;
+    }
+    if (!location) {
+      setError('Location is required.');
+      return;
+    }
+    if (!finalExteriorColor) {
+      setError('Exterior color is required.');
+      return;
+    }
+    if (!finalInteriorColor) {
+      setError('Interior color is required.');
       return;
     }
     setBusy(true);
@@ -189,28 +206,34 @@ export default function SellPage() {
           <div className="field"><label>Price (AED)</label><input type="number" placeholder="53000" min={0} value={price} onChange={(e) => setPrice(e.target.value)} /></div>
         </div>
         <div className="row2">
-          <div className="field"><label>Kilometers (optional)</label><input type="number" placeholder="62000" min={0} value={mileage} onChange={(e) => setMileage(e.target.value)} /></div>
-          <div className="field"><label>Location (optional)</label><input type="text" placeholder="Sharjah, UAE" value={location} onChange={(e) => setLocation(e.target.value)} /></div>
+          <div className="field"><label>Kilometers</label><input type="number" placeholder="62000" min={0} value={mileage} onChange={(e) => setMileage(e.target.value)} /></div>
+          <div className="field">
+            <label>Location</label>
+            <select value={location} onChange={(e) => setLocation(e.target.value)}>
+              <option value="">Select a city</option>
+              {UAE_CITIES.map((c) => (<option key={c} value={c}>{c}</option>))}
+            </select>
+          </div>
         </div>
         <div className="row2">
           <div className="field">
-            <label>Interior color (optional)</label>
-            <select value={interiorColor} onChange={(e) => setInteriorColor(e.target.value)}>
-              <option value="">Not specified</option>
-              {INTERIOR_COLORS.map((c) => (<option key={c} value={c}>{c}</option>))}
-            </select>
-            {interiorColor === 'Other' && (
-              <input type="text" placeholder="Type the color" value={customInteriorColor} onChange={(e) => setCustomInteriorColor(e.target.value)} style={{ marginTop: 8 }} />
-            )}
-          </div>
-          <div className="field">
-            <label>Exterior color (optional)</label>
+            <label>Exterior color</label>
             <select value={exteriorColor} onChange={(e) => setExteriorColor(e.target.value)}>
-              <option value="">Not specified</option>
+              <option value="">Select a color</option>
               {EXTERIOR_COLORS.map((c) => (<option key={c} value={c}>{c}</option>))}
             </select>
             {exteriorColor === 'Other' && (
               <input type="text" placeholder="Type the color" value={customExteriorColor} onChange={(e) => setCustomExteriorColor(e.target.value)} style={{ marginTop: 8 }} />
+            )}
+          </div>
+          <div className="field">
+            <label>Interior color</label>
+            <select value={interiorColor} onChange={(e) => setInteriorColor(e.target.value)}>
+              <option value="">Select a color</option>
+              {INTERIOR_COLORS.map((c) => (<option key={c} value={c}>{c}</option>))}
+            </select>
+            {interiorColor === 'Other' && (
+              <input type="text" placeholder="Type the color" value={customInteriorColor} onChange={(e) => setCustomInteriorColor(e.target.value)} style={{ marginTop: 8 }} />
             )}
           </div>
         </div>
@@ -251,7 +274,7 @@ export default function SellPage() {
             <label>Seats</label>
             <select value={seats} onChange={(e) => setSeats(e.target.value)}>
               <option value="">Not specified</option>
-              {SEAT_OPTIONS.map((s) => (<option key={s} value={s}>{s === 8 ? '8 or more' : s}</option>))}
+              {SEAT_OPTIONS.map((s) => (<option key={s} value={s}>{s === 6 ? '6+' : s}</option>))}
             </select>
           </div>
           <div className="field">
@@ -264,7 +287,7 @@ export default function SellPage() {
         </div>
         <div className="field">
           <label>Description</label>
-          <textarea placeholder="Condition, service history, why you're selling, anything a buyer should know." value={description} onChange={(e) => setDescription(e.target.value)} />
+          <textarea placeholder="Condition, service history, why you're selling, anything a buyer should know. Maybe even why you love the car so other car enthusiasts can understand better." value={description} onChange={(e) => setDescription(e.target.value)} />
         </div>
         <div className="field">
           <label>Photos (up to {MAX_PHOTOS})</label>

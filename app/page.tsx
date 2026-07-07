@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { supabase, Listing } from '@/lib/supabaseClient';
 import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES } from '@/lib/vehicleOptions';
+import { UAE_CITIES } from '@/lib/uaeCities';
 import { MAKE_MODELS } from '@/lib/carModels';
 
 type Row = Listing & { thumb: string | null };
@@ -37,6 +38,7 @@ export default function BrowsePage() {
 
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
+  const [location, setLocation] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
 
@@ -97,12 +99,12 @@ export default function BrowsePage() {
     return Array.from(new Set([...allModels, ...fromListings])).sort();
   }, [make, rows]);
 
-  const quickActive = make || model || minPrice || maxPrice;
+  const quickActive = make || model || location || minPrice || maxPrice;
   const advancedActive = trim || specification || minYear || maxYear || minKm || maxKm || interiorColor ||
     exteriorColor || drivetrain || fuelType || engine || transmission || seats || horsepower;
 
   function clearAll() {
-    setMake(''); setModel(''); setMinPrice(''); setMaxPrice('');
+    setMake(''); setModel(''); setLocation(''); setMinPrice(''); setMaxPrice('');
     setTrim(''); setSpecification(''); setMinYear(''); setMaxYear(''); setMinKm(''); setMaxKm('');
     setInteriorColor(''); setExteriorColor(''); setDrivetrain(''); setFuelType('');
     setEngine(''); setTransmission(''); setSeats(''); setHorsepower('');
@@ -117,6 +119,7 @@ export default function BrowsePage() {
   const filtered = rows.filter((r) => {
     if (make && r.make !== make) return false;
     if (model && r.model !== model) return false;
+    if (location && r.location !== location) return false;
     if (minPrice && r.price < Number(minPrice)) return false;
     if (maxPrice && r.price > Number(maxPrice)) return false;
     if (trim && !(r.trim || '').toLowerCase().includes(trim.toLowerCase())) return false;
@@ -134,7 +137,7 @@ export default function BrowsePage() {
     if (seats) {
       const wanted = Number(seats);
       const has = r.seats ?? -1;
-      if (wanted === 8 ? has < 8 : has !== wanted) return false;
+      if (wanted === 6 ? has < 6 : has !== wanted) return false;
     }
     if (horsepower && r.horsepower !== horsepower) return false;
     return true;
@@ -164,6 +167,13 @@ export default function BrowsePage() {
           <select value={model} onChange={(e) => setModel(e.target.value)}>
             <option value="">All models</option>
             {availableModels.map((m) => (<option key={m} value={m}>{m}</option>))}
+          </select>
+        </div>
+        <div className="f-field">
+          <label>Location</label>
+          <select value={location} onChange={(e) => setLocation(e.target.value)}>
+            <option value="">All cities</option>
+            {UAE_CITIES.map((c) => (<option key={c} value={c}>{c}</option>))}
           </select>
         </div>
         <div className="f-field">
@@ -261,7 +271,7 @@ export default function BrowsePage() {
             <label>Seats</label>
             <select value={seats} onChange={(e) => setSeats(e.target.value)}>
               <option value="">Any</option>
-              {SEAT_OPTIONS.map((s) => (<option key={s} value={s}>{s === 8 ? '8 or more' : s}</option>))}
+              {SEAT_OPTIONS.map((s) => (<option key={s} value={s}>{s === 6 ? '6+' : s}</option>))}
             </select>
           </div>
           <div className="f-field">
