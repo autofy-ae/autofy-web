@@ -105,6 +105,7 @@ export default function MyListingsPage() {
             </div>
             <div className="actions">
               <Link href={`/listing/${l.id}`}>View</Link>
+              <Link href={`/listing/${l.id}/edit`}>Edit</Link>
               <button className="del" onClick={() => handleDelete(l.id)}>Delete</button>
             </div>
           </div>
