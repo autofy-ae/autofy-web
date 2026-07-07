@@ -8,6 +8,7 @@ import { useAuth } from '@/components/AuthContext';
 import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES } from '@/lib/vehicleOptions';
 import { UAE_CITIES } from '@/lib/uaeCities';
 import { MAKE_MODELS } from '@/lib/carModels';
+import { compressImage } from '@/lib/compressImage';
 
 const MAX_PHOTOS = 10;
 const MAKES = Object.keys(MAKE_MODELS).sort();
@@ -38,6 +39,7 @@ export default function SellPage() {
   const [seats, setSeats] = useState('');
   const [horsepower, setHorsepower] = useState('');
   const [files, setFiles] = useState<File[]>([]);
+  const [compressing, setCompressing] = useState(false);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState('');
@@ -64,10 +66,20 @@ export default function SellPage() {
     );
   }
 
-  function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
-    const picked = Array.from(e.target.files || []);
-    const combined = [...files, ...picked].slice(0, MAX_PHOTOS);
-    setFiles(combined);
+  async function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
+    const picked = Array.from(e.target.files || []).slice(0, MAX_PHOTOS - files.length);
+    if (picked.length === 0) return;
+    setCompressing(true);
+    try {
+      const compressed = await Promise.all(picked.map((f) => compressImage(f)));
+      setFiles((prev) => [...prev, ...compressed].slice(0, MAX_PHOTOS));
+    } catch (err) {
+      console.error('Compression failed, using original files:', err);
+      setFiles((prev) => [...prev, ...picked].slice(0, MAX_PHOTOS));
+    } finally {
+      setCompressing(false);
+      e.target.value = '';
+    }
   }
 
   function removeFile(idx: number) {
@@ -291,7 +303,8 @@ export default function SellPage() {
         </div>
         <div className="field">
           <label>Photos (up to {MAX_PHOTOS})</label>
-          <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleFiles} disabled={files.length >= MAX_PHOTOS} />
+          <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleFiles} disabled={files.length >= MAX_PHOTOS || compressing} />
+          {compressing && <div className="hint" style={{ marginTop: 6 }}>Compressing photos…</div>}
           <div className="hint">JPEG, PNG, or WebP. Under 5MB each.</div>
           {files.length > 0 && (
             <div className="photo-input-row" style={{ marginTop: 10 }}>
