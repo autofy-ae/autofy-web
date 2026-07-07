@@ -146,6 +146,7 @@ export default function SellPage() {
       return;
     }
 
+    const failedPhotos: number[] = [];
     for (let i = 0; i < files.length; i++) {
       setProgress(`Uploading photo ${i + 1} of ${files.length}…`);
       const file = files[i];
@@ -155,13 +156,25 @@ export default function SellPage() {
         cacheControl: '3600',
         upsert: true
       });
-      if (uploadError) continue;
+      if (uploadError) {
+        console.error(`Photo ${i + 1} failed to upload:`, uploadError.message);
+        failedPhotos.push(i + 1);
+        continue;
+      }
       const { data: pub } = supabase.storage.from('listing-photos').getPublicUrl(path);
       await supabase.from('listing_photos').insert({
         listing_id: listing.id,
         url: pub.publicUrl,
         position: i
       });
+    }
+
+    if (failedPhotos.length > 0) {
+      setBusy(false);
+      setError(
+        `Listing posted, but photo${failedPhotos.length > 1 ? 's' : ''} ${failedPhotos.join(', ')} couldn't be uploaded (file size crosses 5MB even after compression). Kindly compress and add again from your listing.`
+      );
+      return;
     }
 
     setBusy(false);
