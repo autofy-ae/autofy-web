@@ -239,7 +239,7 @@ export default function SellPage() {
         </div>
         <div className="row2">
           <div className="field">
-            <label>Drivetrain</label>
+            <label>Drivetrain (optional)</label>
             <select value={drivetrain} onChange={(e) => setDrivetrain(e.target.value)}>
               <option value="">Not specified</option>
               {DRIVETRAINS.map((d) => (<option key={d} value={d}>{d}</option>))}
@@ -255,14 +255,14 @@ export default function SellPage() {
         </div>
         <div className="row2">
           <div className="field">
-            <label>Engine</label>
+            <label>Engine (optional)</label>
             <select value={engine} onChange={(e) => setEngine(e.target.value)}>
               <option value="">Not specified</option>
               {ENGINES.map((e2) => (<option key={e2} value={e2}>{e2}</option>))}
             </select>
           </div>
           <div className="field">
-            <label>Transmission</label>
+            <label>Transmission (optional)</label>
             <select value={transmission} onChange={(e) => setTransmission(e.target.value)}>
               <option value="">Not specified</option>
               {TRANSMISSIONS.map((t) => (<option key={t} value={t}>{t}</option>))}
@@ -271,7 +271,7 @@ export default function SellPage() {
         </div>
         <div className="row2">
           <div className="field">
-            <label>Seats</label>
+            <label>Seats (optional)</label>
             <select value={seats} onChange={(e) => setSeats(e.target.value)}>
               <option value="">Not specified</option>
               {SEAT_OPTIONS.map((s) => (<option key={s} value={s}>{s === 6 ? '6+' : s}</option>))}
