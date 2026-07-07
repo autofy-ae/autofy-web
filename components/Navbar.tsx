@@ -25,6 +25,16 @@ export default function Navbar() {
           <Link href="/sell" className={pathname === '/sell' ? 'active' : ''}>Sell a car</Link>
           <Link href="/my-listings" className={pathname === '/my-listings' ? 'active' : ''}>My listings</Link>
         </nav>
+        <Link
+          href="/book-a-shoot"
+          style={{
+            background: 'var(--maroon)', color: '#fff', fontFamily: "'Anton', sans-serif", fontSize: 13,
+            letterSpacing: '0.03em', textTransform: 'uppercase', padding: '9px 16px', borderRadius: 6,
+            textDecoration: 'none', flexShrink: 0
+          }}
+        >
+          Book A Shoot
+        </Link>
         <div className="whoami">
           {loading ? null : user ? (
             <>
