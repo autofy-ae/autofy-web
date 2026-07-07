@@ -28,7 +28,7 @@ export default function Navbar() {
         <div className="whoami">
           {loading ? null : user ? (
             <>
-              Signed in as <b style={{ color: '#fff' }}>{profile?.full_name || user.email}</b>
+              Signed in as <b style={{ color: 'var(--ink)' }}>{profile?.full_name || user.email}</b>
               <button onClick={handleSignOut}>Sign out</button>
             </>
           ) : (
