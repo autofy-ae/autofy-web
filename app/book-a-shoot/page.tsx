@@ -44,7 +44,7 @@ export default function BookAShootPage() {
         >
           Book Now
         </a>
-        <p className="hint" style={{ marginTop: 12 }}>Opens WhatsApp with a message to the Autofy shoot team.</p>
+        <p className="hint" style={{ marginTop: 12 }}>Opens WhatsApp with a message to the Autofy media team.</p>
       </div>
     </div>
   );
