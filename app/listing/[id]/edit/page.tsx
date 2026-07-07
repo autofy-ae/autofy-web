@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase, ListingPhoto } from '@/lib/supabaseClient';
 import { useAuth } from '@/components/AuthContext';
-import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES } from '@/lib/vehicleOptions';
+import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES, rangeForExactHorsepower } from '@/lib/vehicleOptions';
 import { UAE_CITIES } from '@/lib/uaeCities';
 import { MAKE_MODELS } from '@/lib/carModels';
 import { compressImage } from '@/lib/compressImage';
@@ -162,6 +162,14 @@ export default function EditListingPage() {
 
   function toggleRemoveExisting(photoId: string) {
     setRemovedPhotoIds((prev) => prev.includes(photoId) ? prev.filter((p) => p !== photoId) : [...prev, photoId]);
+  }
+
+  function handleExactHorsepowerChange(value: string) {
+    const digitsOnly = value.replace(/[^0-9]/g, '');
+    setHorsepowerExact(digitsOnly);
+    if (digitsOnly) {
+      setHorsepower(rangeForExactHorsepower(Number(digitsOnly)));
+    }
   }
 
   async function submitEdit() {
@@ -373,17 +381,17 @@ export default function EditListingPage() {
             </select>
           </div>
           <div className="field">
-            <label>Horsepower range</label>
-            <select value={horsepower} onChange={(e) => setHorsepower(e.target.value)}>
+            <label>Horsepower range{horsepowerExact ? ' (auto-set from exact bhp)' : ''}</label>
+            <select value={horsepower} onChange={(e) => setHorsepower(e.target.value)} disabled={!!horsepowerExact}>
               <option value="">Not specified</option>
               {HORSEPOWER_RANGES.map((h) => (<option key={h} value={h}>{h}</option>))}
             </select>
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
               placeholder="Know the exact bhp? Enter it here (optional)"
-              min={0}
               value={horsepowerExact}
-              onChange={(e) => setHorsepowerExact(e.target.value)}
+              onChange={(e) => handleExactHorsepowerChange(e.target.value)}
               style={{ marginTop: 8 }}
             />
           </div>
