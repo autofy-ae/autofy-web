@@ -57,7 +57,7 @@ export default function ListingDetailPage() {
 
   return (
     <div style={{ maxWidth: 640, margin: '0 auto' }}>
-      <div className="detail-photo">
+      <div className="detail-photo" style={{ position: 'relative' }}>
         {photos.length > 0 ? (
           <img src={photos[activePhoto]?.url} alt={`${listing.year} ${listing.make} ${listing.model}`} />
         ) : (
@@ -65,14 +65,28 @@ export default function ListingDetailPage() {
             No photos provided
           </div>
         )}
+        {photos.length > 1 && (
+          <>
+            <button
+              aria-label="Previous photo"
+              onClick={() => setActivePhoto((activePhoto - 1 + photos.length) % photos.length)}
+              className="photo-nav-arrow"
+              style={{ left: 10 }}
+            >
+              ‹
+            </button>
+            <button
+              aria-label="Next photo"
+              onClick={() => setActivePhoto((activePhoto + 1) % photos.length)}
+              className="photo-nav-arrow"
+              style={{ right: 10 }}
+            >
+              ›
+            </button>
+            <div className="photo-counter mono">{activePhoto + 1} / {photos.length}</div>
+          </>
+        )}
       </div>
-      {photos.length > 1 && (
-        <div className="thumb-row">
-          {photos.map((p, i) => (
-            <img key={p.id} src={p.url} className={i === activePhoto ? 'active' : ''} onClick={() => setActivePhoto(i)} alt="" />
-          ))}
-        </div>
-      )}
 
       <h2 className="display" style={{ fontSize: 24, textTransform: 'none', margin: '0 0 6px' }}>
         {listing.year} {listing.make} {listing.model}
