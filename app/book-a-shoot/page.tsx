@@ -22,7 +22,7 @@ export default function BookAShootPage() {
         <p className="sub" style={{ marginBottom: 20 }}>Flat rate, one car, one shoot.</p>
 
         <ul style={{ margin: '0 0 24px', paddingLeft: 20, fontSize: 14, lineHeight: 1.9, color: 'var(--ink)' }}>
-          <li>A 2-3 hour on-location shoot with a full Autofy team</li>
+          <li>A 2-3 hour on-location shoot with Autofy's media team</li>
           <li>Professionally shot and edited photo and video content</li>
           <li>A copy of the final edit delivered to you, for personal or social use</li>
         </ul>
