@@ -20,10 +20,9 @@ export default function AboutPage() {
           production.
         </p>
         <p style={{ fontSize: 14.5, lineHeight: 1.8, color: 'var(--ink)', marginBottom: 18 }}>
-          Two of us — Ahmed and Devdath — same obsession, different decade of it building up. At some
-          point the car knowledge and the production instincts stopped being separate hobbies and
-          started looking like something we could actually build. On the 1st of January, 2026, that
-          became Autofy.
+          Two of us — Ahmed and Devdath — same obsession, different styles. At some point the car
+          knowledge and the production instincts stopped being separate hobbies and started looking
+          like something we live in. On the 1st of January, 2026, that became Autofy.
         </p>
         <p style={{ fontSize: 14.5, lineHeight: 1.8, color: 'var(--ink)', marginBottom: 18 }}>
           We built the site we always wished existed — one that doesn't charge you to list a car you
