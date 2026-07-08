@@ -24,6 +24,7 @@ export default function Navbar() {
           <Link href="/" className={pathname === '/' ? 'active' : ''}>Browse</Link>
           <Link href="/sell" className={pathname === '/sell' ? 'active' : ''}>Sell a car</Link>
           <Link href="/my-listings" className={pathname === '/my-listings' ? 'active' : ''}>My listings</Link>
+          <Link href="/contact" className={pathname === '/contact' ? 'active' : ''}>Contact</Link>
         </nav>
         <Link
           href="/book-a-shoot"
