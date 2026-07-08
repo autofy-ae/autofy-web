@@ -9,13 +9,7 @@ import { MAKE_MODELS } from '@/lib/carModels';
 
 type Row = Listing & { thumb: string | null };
 
-const COMMON_MAKES = [
-  'Acura', 'Audi', 'BMW', 'Buick', 'Cadillac', 'Chevrolet', 'Chrysler', 'Dodge',
-  'Ford', 'GMC', 'Genesis', 'Honda', 'Hyundai', 'Infiniti', 'Jaguar', 'Jeep',
-  'Kia', 'Land Rover', 'Lexus', 'Lincoln', 'Mazda', 'Mercedes-Benz', 'Mini',
-  'Mitsubishi', 'Nissan', 'Porsche', 'Ram', 'Subaru', 'Tesla', 'Toyota',
-  'Volkswagen', 'Volvo'
-];
+const COMMON_MAKES = Object.keys(MAKE_MODELS).sort();
 
 function formatPrice(p: number) {
   return 'AED ' + Number(p).toLocaleString('en-US');

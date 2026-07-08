@@ -1,4 +1,11 @@
 export const MAKE_MODELS: Record<string, string[]> = {
+  Bentley: ['Continental GT', 'Flying Spur', 'Bentayga', 'Mulsanne'],
+  BYD: ['Han', 'Tang', 'Song', 'Song Plus', 'Qin', 'Seal', 'Atto 3', 'Dolphin', 'Yuan', 'e2'],
+  Jetour: ['X50', 'X70', 'X70 Plus', 'X90', 'X90 Plus', 'Dashing', 'T2', 'Traveller'],
+  Lamborghini: ['Huracán', 'Aventador', 'Revuelto', 'Urus', 'Gallardo', 'Murciélago', 'Diablo', 'Countach'],
+  'Rolls-Royce': ['Phantom', 'Ghost', 'Wraith', 'Dawn', 'Cullinan', 'Spectre'],
+  Suzuki: ['Swift', 'Baleno', 'Ciaz', 'Dzire', 'Ertiga', 'Vitara', 'Grand Vitara', 'Jimny', 'S-Presso', 'Celerio', 'XL7'],
+  Zeekr: ['001', '007', '009', 'X', '7X'],
   Acura: ['ILX', 'TLX', 'RLX', 'RDX', 'MDX'],
   Audi: ['A1', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'Q2', 'Q3', 'Q5', 'Q7', 'Q8', 'TT', 'R8', 'e-tron', 'RS3', 'RS4', 'RS5', 'RS6', 'RS7', 'RS Q8'],
   BMW: ['1 Series', '2 Series', '3 Series', '4 Series', '5 Series', '6 Series', '7 Series', '8 Series', 'X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'Z4', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M8'],
