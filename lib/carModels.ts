@@ -23,7 +23,7 @@ export const MAKE_MODELS: Record<string, string[]> = {
   'Mercedes-Benz': ['A-Class', 'A45', 'B-Class', 'C-Class', 'C63', 'E-Class', 'E63', 'S-Class', 'CLA', 'CLS', 'GLA', 'GLB', 'GLC', 'GLE', 'GLS', 'G-Class', 'G63', 'G65', 'SL', 'AMG GT'],
   Mini: ['Cooper', 'Cooper S', 'Clubman', 'Countryman'],
   Mitsubishi: ['Attrage', 'Lancer', 'Mirage', 'ASX', 'Eclipse Cross', 'Outlander', 'Pajero', 'Xpander'],
-  Nissan: ['Altima', 'Sentra', 'Maxima', 'Sunny', 'Patrol', 'X-Trail', 'Kicks', 'Juke', 'Pathfinder', 'Armada', 'Navara', 'GT-R', '370Z', 'Murano'],
+  Nissan: ['Altima', 'Sentra', 'Maxima', 'Sunny', 'Patrol', 'X-Trail', 'X-Terra', 'Kicks', 'Juke', 'Pathfinder', 'Armada', 'Navara', 'GT-R', '350Z', '370Z', 'Murano'],
   Porsche: ['911', 'Cayman', 'Boxster', 'Panamera', 'Macan', 'Cayenne', 'Taycan'],
   Ram: ['1500', '2500', '3500'],
   Subaru: ['Impreza', 'Legacy', 'Outback', 'Forester', 'Crosstrek', 'WRX', 'BRZ'],
