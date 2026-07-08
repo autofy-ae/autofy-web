@@ -220,17 +220,17 @@ export default function BrowsePage() {
             <input type="number" placeholder="Any" value={maxKm} onChange={(e) => setMaxKm(e.target.value)} />
           </div>
           <div className="f-field">
-            <label>Interior color</label>
-            <select value={interiorColor} onChange={(e) => setInteriorColor(e.target.value)}>
-              <option value="">Any</option>
-              {INTERIOR_COLORS.map((c) => (<option key={c} value={c}>{c}</option>))}
-            </select>
-          </div>
-          <div className="f-field">
             <label>Exterior color</label>
             <select value={exteriorColor} onChange={(e) => setExteriorColor(e.target.value)}>
               <option value="">Any</option>
               {EXTERIOR_COLORS.map((c) => (<option key={c} value={c}>{c}</option>))}
+            </select>
+          </div>
+          <div className="f-field">
+            <label>Interior color</label>
+            <select value={interiorColor} onChange={(e) => setInteriorColor(e.target.value)}>
+              <option value="">Any</option>
+              {INTERIOR_COLORS.map((c) => (<option key={c} value={c}>{c}</option>))}
             </select>
           </div>
           <div className="f-field">
