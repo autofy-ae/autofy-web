@@ -20,7 +20,7 @@ export const MAKE_MODELS: Record<string, string[]> = {
   Lexus: ['ES', 'GS', 'IS', 'LS', 'LC', 'RC', 'NX', 'RX', 'GX', 'LX', 'UX', 'LFA'],
   Lincoln: ['MKZ', 'Nautilus', 'Aviator', 'Navigator', 'Corsair'],
   Mazda: ['Mazda2', 'Mazda3', 'Mazda6', 'CX-3', 'CX-5', 'CX-9', 'CX-30', 'MX-5'],
-  'Mercedes-Benz': ['A-Class', 'B-Class', 'C-Class', 'E-Class', 'S-Class', 'CLA', 'CLS', 'GLA', 'GLB', 'GLC', 'GLE', 'GLS', 'G-Class', 'SL', 'AMG GT', 'Maybach S-Class'],
+  'Mercedes-Benz': ['A-Class', 'A45', 'B-Class', 'C-Class', 'C63', 'E-Class', 'E63', 'S-Class', 'CLA', 'CLS', 'GLA', 'GLB', 'GLC', 'GLE', 'GLS', 'G-Class', 'G63', 'G65', 'SL', 'AMG GT'],
   Mini: ['Cooper', 'Cooper S', 'Clubman', 'Countryman'],
   Mitsubishi: ['Attrage', 'Lancer', 'Mirage', 'ASX', 'Eclipse Cross', 'Outlander', 'Pajero', 'Xpander'],
   Nissan: ['Altima', 'Sentra', 'Maxima', 'Sunny', 'Patrol', 'X-Trail', 'Kicks', 'Juke', 'Pathfinder', 'Armada', 'Navara', 'GT-R', '370Z', 'Murano'],
