@@ -20,9 +20,10 @@ export default function AboutPage() {
           production.
         </p>
         <p style={{ fontSize: 14.5, lineHeight: 1.8, color: 'var(--ink)', marginBottom: 18 }}>
-          Two of us, same obsession, different decade of it building up. At some point the car knowledge
-          and the production instincts stopped being separate hobbies and started looking like something
-          we could actually build. On the 1st of January, 2026, that became Autofy.
+          Two of us — Ahmed and Devdath — same obsession, different decade of it building up. At some
+          point the car knowledge and the production instincts stopped being separate hobbies and
+          started looking like something we could actually build. On the 1st of January, 2026, that
+          became Autofy.
         </p>
         <p style={{ fontSize: 14.5, lineHeight: 1.8, color: 'var(--ink)', marginBottom: 18 }}>
           We built the site we always wished existed — one that doesn't charge you to list a car you
@@ -31,10 +32,13 @@ export default function AboutPage() {
           listing fees. No middleman taking a cut of your sale. Just people, their cars, and a phone
           number to call.
         </p>
-        <p style={{ fontSize: 14.5, lineHeight: 1.8, color: 'var(--ink)', marginBottom: 0 }}>
+        <p style={{ fontSize: 14.5, lineHeight: 1.8, color: 'var(--ink)', marginBottom: 24 }}>
           If you know exactly what an I6 sounds like versus a V8, if you've argued about drivetrain
           layouts with strangers online, if Top Gear reruns still hit different at 1am — this was built
           for you as much as it was built by us.
+        </p>
+        <p className="display" style={{ fontSize: 16, margin: 0, color: 'var(--maroon)' }}>
+          — Ahmed &amp; Devdath, Autofy
         </p>
       </div>
     </div>
