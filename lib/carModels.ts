@@ -28,7 +28,7 @@ export const MAKE_MODELS: Record<string, string[]> = {
   Ram: ['1500', '2500', '3500'],
   Subaru: ['Impreza', 'Legacy', 'Outback', 'Forester', 'Crosstrek', 'WRX', 'BRZ'],
   Tesla: ['Model S', 'Model 3', 'Model X', 'Model Y', 'Cybertruck'],
-  Toyota: ['Corolla', 'Camry', 'Yaris', 'Avalon', 'Prius', 'Land Cruiser', 'Land Cruiser Prado', 'Fortuner', 'Hilux', 'RAV4', 'Highlander', '4Runner', 'Sequoia', 'Tacoma', 'Tundra', 'Supra', 'C-HR', 'Rush', 'Innova'],
+  Toyota: ['Corolla', 'Camry', 'Yaris', 'Avalon', 'Prius', 'Land Cruiser', 'Land Cruiser Prado', 'Fortuner', 'Hilux', 'RAV4', 'Highlander', '4Runner', 'Sequoia', 'Tacoma', 'Tundra', 'Supra', '86', 'C-HR', 'Rush', 'Innova'],
   Volkswagen: ['Polo', 'Golf', 'Jetta', 'Passat', 'Arteon', 'T-Roc', 'Tiguan', 'Touareg', 'Atlas', 'ID.4'],
   Volvo: ['S60', 'S90', 'V60', 'V90', 'XC40', 'XC60', 'XC90']
 };
