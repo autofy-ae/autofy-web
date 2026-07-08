@@ -1,6 +1,6 @@
 export const MAKE_MODELS: Record<string, string[]> = {
   Acura: ['ILX', 'TLX', 'RLX', 'RDX', 'MDX'],
-  Audi: ['A1', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'Q2', 'Q3', 'Q5', 'Q7', 'Q8', 'TT', 'R8', 'e-tron'],
+  Audi: ['A1', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'Q2', 'Q3', 'Q5', 'Q7', 'Q8', 'TT', 'R8', 'e-tron', 'RS3', 'RS4', 'RS5', 'RS6', 'RS7', 'RS Q8'],
   BMW: ['1 Series', '2 Series', '3 Series', '4 Series', '5 Series', '6 Series', '7 Series', '8 Series', 'X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'Z4', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M8'],
   Buick: ['Encore', 'Envision', 'Enclave'],
   Cadillac: ['ATS', 'CTS', 'CT4', 'CT5', 'XT4', 'XT5', 'XT6', 'Escalade'],
