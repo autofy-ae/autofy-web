@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { AuthProvider } from '@/components/AuthContext';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Autofy — buy and sell cars, no fees',
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           <Navbar />
           <main className="wrap">{children}</main>
+          <Footer />
         </AuthProvider>
       </body>
     </html>
