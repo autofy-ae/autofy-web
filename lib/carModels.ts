@@ -15,12 +15,10 @@ export const MAKE_MODELS: Record<string, string[]> = {
   Denza: ['D9', 'N7', 'N8', 'Z9'],
   Exeed: ['LX', 'TXL', 'VX', 'RX'],
   Ferrari: [
-    'Roma', 'Portofino', 'California', 'California T', '296 GTB', '296 GTS', 'F8 Tributo', 'F8 Spider',
-    'SF90 Stradale', 'SF90 Spider', '812 Superfast', '812 GTS', '812 Competizione', 'Purosangue',
-    'FF', 'GTC4Lusso', 'F12berlinetta', 'F12tdf', 'LaFerrari',
-    '488 GTB', '488 Spider', '488 Pista', '458 Italia', '458 Spider', '458 Speciale',
-    '430 Scuderia', 'F430', '360 Modena', '360 Challenge Stradale', '355', '348', '328', '308',
-    'Testarossa', '512TR', '550 Maranello', '575M Maranello', '599 GTB Fiorano', '599 GTO',
+    'Roma', 'Portofino', 'California', '296', 'F8', 'SF90', '812', 'Purosangue',
+    'FF', 'GTC4Lusso', 'F12', 'LaFerrari',
+    '488', '458', '430', '360', '355', '348', '328', '308',
+    'Testarossa', '550', '575M', '599',
     'Enzo', 'F40', 'F50', 'Dino 246'
   ],
   Fiat: ['500', '500X', 'Panda', 'Tipo', 'Doblo'],
