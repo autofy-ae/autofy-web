@@ -17,7 +17,7 @@ export const MAKE_MODELS: Record<string, string[]> = {
   Jeep: ['Renegade', 'Compass', 'Cherokee', 'Grand Cherokee', 'Wrangler', 'Gladiator'],
   Kia: ['Picanto', 'Rio', 'Cerato', 'K5', 'Stinger', 'Sportage', 'Sorento', 'Telluride', 'Soul', 'Seltos', 'Carnival', 'Niro'],
   'Land Rover': ['Range Rover', 'Range Rover Sport', 'Range Rover Velar', 'Range Rover Evoque', 'Discovery', 'Discovery Sport', 'Defender'],
-  Lexus: ['ES', 'GS', 'IS', 'LS', 'LC', 'RC', 'NX', 'RX', 'GX', 'LX', 'UX'],
+  Lexus: ['ES', 'GS', 'IS', 'LS', 'LC', 'RC', 'NX', 'RX', 'GX', 'LX', 'UX', 'LFA'],
   Lincoln: ['MKZ', 'Nautilus', 'Aviator', 'Navigator', 'Corsair'],
   Mazda: ['Mazda2', 'Mazda3', 'Mazda6', 'CX-3', 'CX-5', 'CX-9', 'CX-30', 'MX-5'],
   'Mercedes-Benz': ['A-Class', 'B-Class', 'C-Class', 'E-Class', 'S-Class', 'CLA', 'CLS', 'GLA', 'GLB', 'GLC', 'GLE', 'GLS', 'G-Class', 'SL', 'AMG GT', 'Maybach S-Class'],
