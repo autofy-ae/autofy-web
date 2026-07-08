@@ -12,7 +12,7 @@ export const MAKE_MODELS: Record<string, string[]> = {
   Genesis: ['G70', 'G80', 'G90', 'GV70', 'GV80'],
   Honda: ['Civic', 'Accord', 'City', 'Jazz', 'CR-V', 'HR-V', 'Pilot', 'Odyssey', 'Ridgeline', 'BR-V'],
   Hyundai: ['Accent', 'Elantra', 'Sonata', 'Azera', 'Veloster', 'Venue', 'Kona', 'Tucson', 'Santa Fe', 'Palisade', 'Creta', 'i10', 'i20', 'i30', 'Staria'],
-  Infiniti: ['Q50', 'Q60', 'Q70', 'QX50', 'QX55', 'QX60', 'QX70', 'QX80'],
+  Infiniti: ['G35', 'G37', 'Q30', 'Q50', 'Q60', 'Q70', 'QX50', 'QX55', 'QX60', 'QX70', 'QX80', 'FX35/FX45'],
   Jaguar: ['XE', 'XF', 'XJ', 'F-Type', 'E-Pace', 'F-Pace', 'I-Pace'],
   Jeep: ['Renegade', 'Compass', 'Cherokee', 'Grand Cherokee', 'Wrangler', 'Gladiator'],
   Kia: ['Picanto', 'Rio', 'Cerato', 'K5', 'Stinger', 'Sportage', 'Sorento', 'Telluride', 'Soul', 'Seltos', 'Carnival', 'Niro'],
