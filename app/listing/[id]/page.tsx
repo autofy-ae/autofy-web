@@ -96,7 +96,7 @@ export default function ListingDetailPage() {
       <div className="spec-grid">
         <div><div className="k">Year</div><div className="v">{listing.year}</div></div>
         <div><div className="k">Trim</div><div className="v">{listing.trim || '—'}</div></div>
-        <div><div className="k">Kilometers</div><div className="v">{listing.mileage ? `${listing.mileage.toLocaleString()} km` : '—'}</div></div>
+        <div><div className="k">Kilometers</div><div className="v">{listing.mileage ? `${listing.mileage.toLocaleString('en-US')} km` : '—'}</div></div>
         <div><div className="k">Specification</div><div className="v">{listing.specification || '—'}</div></div>
         <div><div className="k">Location</div><div className="v">{listing.location || '—'}</div></div>
         <div><div className="k">Exterior color</div><div className="v">{listing.exterior_color || '—'}</div></div>

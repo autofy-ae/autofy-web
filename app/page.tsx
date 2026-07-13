@@ -309,7 +309,7 @@ export default function BrowsePage() {
             </div>
             <div className="body">
               <h3>{l.year} {l.make} {l.model}</h3>
-              <div className="meta">{l.mileage ? `${l.mileage.toLocaleString()} km · ` : ''}{l.location || 'Location not listed'}</div>
+              <div className="meta">{l.mileage ? `${l.mileage.toLocaleString('en-US')} km · ` : ''}{l.location || 'Location not listed'}</div>
               <div className="foot">
                 <span>{timeAgo(l.created_at)}</span>
               </div>
