@@ -88,10 +88,10 @@ export default function ListingDetailPage() {
         )}
       </div>
 
-      <h2 className="display" style={{ fontSize: 24, textTransform: 'none', margin: '0 0 6px' }}>
+      <h2 className="display" style={{ fontSize: 22, textTransform: 'none', margin: '0 0 8px', color: 'var(--ink-soft)', fontWeight: 400 }}>
         {listing.year} {listing.make} {listing.model}
       </h2>
-      <div className="mono" style={{ fontWeight: 700, fontSize: 20, color: 'var(--maroon)' }}>{formatPrice(listing.price)}</div>
+      <div className="mono" style={{ fontWeight: 700, fontSize: 30, letterSpacing: '-0.01em', color: 'var(--maroon)' }}>{formatPrice(listing.price)}</div>
 
       <div className="spec-grid">
         <div><div className="k">Year</div><div className="v">{listing.year}</div></div>
