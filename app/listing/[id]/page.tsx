@@ -116,23 +116,28 @@ export default function ListingDetailPage() {
         <div className="contact-box">
           <div className="who">Seller</div>
           <div className="name display" style={{ textTransform: 'none' }}>{seller.full_name}</div>
-          {seller.whatsapp_preferred && (
+          {seller.whatsapp_preferred ? (
             <div className="contact-row">
-              <span className="num mono" style={{ fontSize: 13 }}>The seller prefers to be contacted via WhatsApp</span>
+              <span className="num mono" style={{ fontSize: 13 }}>Seller prefers WhatsApp</span>
               <a
                 href={`https://wa.me/${seller.phone.replace(/[^0-9]/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ background: '#25D366', color: '#0B0B0C' }}
+                aria-label="Message on WhatsApp"
+                style={{ background: '#25D366', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '7px 10px' }}
               >
-                WhatsApp
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#0B0B0C" aria-hidden="true">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.868-2.03-.967-.273-.099-.472-.148-.67.15-.198.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                  <path d="M12.004 2c-5.514 0-9.98 4.467-9.98 9.98 0 1.76.46 3.48 1.335 4.995L2 22l5.13-1.345a9.96 9.96 0 0 0 4.874 1.242h.004c5.513 0 9.98-4.467 9.98-9.98 0-2.665-1.037-5.17-2.922-7.055A9.933 9.933 0 0 0 12.004 2zm0 18.13a8.13 8.13 0 0 1-4.142-1.133l-.297-.176-3.045.799.813-2.968-.193-.305a8.126 8.126 0 0 1-1.246-4.367c0-4.49 3.653-8.144 8.144-8.144 2.176 0 4.22.848 5.759 2.388a8.09 8.09 0 0 1 2.385 5.76c0 4.49-3.653 8.146-8.178 8.146z"/>
+                </svg>
               </a>
             </div>
+          ) : (
+            <div className="contact-row">
+              <span className="num mono">{seller.phone}</span>
+              <a href={`tel:${seller.phone.replace(/[^0-9+]/g, '')}`}>Call</a>
+            </div>
           )}
-          <div className="contact-row">
-            <span className="num mono">{seller.phone}</span>
-            <a href={`tel:${seller.phone.replace(/[^0-9+]/g, '')}`}>Call</a>
-          </div>
         </div>
       )}
     </div>
