@@ -3,19 +3,17 @@
  * until the output is under targetBytes (default 250KB) - so every uploaded
  * photo lands in a predictable, small size range regardless of the original.
  */
-export async function compressImage(file: File, targetBytes = 200 * 1024): Promise<File> {
+export async function compressImage(file: File, targetBytes = 450 * 1024): Promise<File> {
   const bitmap = await createImageBitmap(file);
   const originalWidth = bitmap.width;
   const originalHeight = bitmap.height;
 
   const attempts: Array<{ maxDimension: number; quality: number }> = [
-    { maxDimension: 1600, quality: 0.8 },
-    { maxDimension: 1600, quality: 0.6 },
-    { maxDimension: 1200, quality: 0.6 },
-    { maxDimension: 1200, quality: 0.45 },
-    { maxDimension: 900, quality: 0.45 },
-    { maxDimension: 900, quality: 0.3 },
-    { maxDimension: 700, quality: 0.3 }
+    { maxDimension: 2000, quality: 0.85 },
+    { maxDimension: 2000, quality: 0.7 },
+    { maxDimension: 1600, quality: 0.7 },
+    { maxDimension: 1600, quality: 0.55 },
+    { maxDimension: 1200, quality: 0.5 }
   ];
 
   let bestFile: File | null = null;
