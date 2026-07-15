@@ -43,6 +43,14 @@ export default function LoginPage() {
       setError(signUpError.message);
       return;
     }
+    // Supabase returns 200 even when the email is already registered, to avoid
+    // leaking which emails exist. The real signal is an empty identities array.
+    if (data.user && data.user.identities && data.user.identities.length === 0) {
+      setError('This email is already registered.');
+      setMode('signin');
+      setNotice('');
+      return;
+    }
     if (data.session) {
       router.push('/');
     } else {
@@ -54,6 +62,7 @@ export default function LoginPage() {
   async function handleSignIn(e: React.FormEvent) {
     e.preventDefault();
     setError('');
+    setNotice('');
     if (!email.trim() || !password) {
       setError('Enter your email and password.');
       return;
@@ -65,10 +74,33 @@ export default function LoginPage() {
     });
     setBusy(false);
     if (signInError) {
-      setError(signInError.message);
+      if (signInError.message.toLowerCase().includes('invalid login credentials')) {
+        setError('Incorrect email or password.');
+      } else {
+        setError(signInError.message);
+      }
       return;
     }
     router.push('/');
+  }
+
+  async function handleResetPassword() {
+    setError('');
+    setNotice('');
+    if (!email.trim()) {
+      setError('Enter your email above first, then tap "Reset it".');
+      return;
+    }
+    setBusy(true);
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/reset-password`
+    });
+    setBusy(false);
+    if (resetError) {
+      setError(resetError.message);
+      return;
+    }
+    setNotice('Password reset link sent. Check your email.');
   }
 
   return (
@@ -145,10 +177,49 @@ export default function LoginPage() {
                 <label htmlFor="si-pass">Password</label>
                 <input id="si-pass" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
               </div>
-              {error && <div className="error-text">{error}</div>}
+              {error && (
+                <div className="error-text">
+                  {error}
+                  {error === 'Incorrect email or password.' && (
+                    <>
+                      {' '}
+                      <button
+                        type="button"
+                        onClick={handleResetPassword}
+                        disabled={busy}
+                        style={{ background: 'none', border: 'none', color: 'var(--black)', textDecoration: 'underline', cursor: 'pointer', fontSize: 13, padding: 0 }}
+                      >
+                        Reset it
+                      </button>
+                    </>
+                  )}
+                  {error === 'This email is already registered.' && (
+                    <>
+                      {' '}Try signing in, or{' '}
+                      <button
+                        type="button"
+                        onClick={handleResetPassword}
+                        disabled={busy}
+                        style={{ background: 'none', border: 'none', color: 'var(--black)', textDecoration: 'underline', cursor: 'pointer', fontSize: 13, padding: 0 }}
+                      >
+                        reset your password
+                      </button>
+                      .
+                    </>
+                  )}
+                </div>
+              )}
               {notice && <div className="success-text">{notice}</div>}
               <button className="btn" type="submit" disabled={busy} style={{ marginTop: 6 }}>
                 {busy ? 'Signing in…' : 'Sign in'}
+              </button>
+              <button
+                type="button"
+                onClick={handleResetPassword}
+                disabled={busy}
+                style={{ background: 'none', border: 'none', color: 'var(--ink-soft)', textDecoration: 'underline', cursor: 'pointer', fontSize: 12, padding: 0, marginTop: 10, display: 'block' }}
+              >
+                Forgot password?
               </button>
             </form>
             <p style={{ fontSize: 13, marginTop: 18 }}>
