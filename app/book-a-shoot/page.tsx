@@ -2,6 +2,14 @@
 
 const WHATSAPP_URL = 'https://wa.me/971569026568?text=Hi%20Team%20Autofy%2C%20I%20would%20like%20to%20book%20a%20shoot%20for%20my%20car.';
 
+const PORTFOLIO = [
+  '/portfolio/shoot-01.jpg',
+  '/portfolio/shoot-02.jpg',
+  '/portfolio/shoot-03.jpg',
+  '/portfolio/shoot-04.jpg',
+  '/portfolio/shoot-05.jpg'
+];
+
 export default function BookAShootPage() {
   return (
     <div style={{ maxWidth: 640, margin: '0 auto' }}>
@@ -12,6 +20,17 @@ export default function BookAShootPage() {
           for your listing, your socials, or to frame it on your wall.
         </p>
         <span className="swoosh"></span>
+      </div>
+
+      <h2 style={{ fontFamily: 'Anton, sans-serif', fontWeight: 400, fontSize: 20, textTransform: 'uppercase', margin: '0 0 12px' }}>
+        From our shoots
+      </h2>
+      <div className="portfolio-grid">
+        {PORTFOLIO.map((src) => (
+          <a key={src} href={src} target="_blank" rel="noopener noreferrer">
+            <img src={src} alt="Autofy shoot" loading="lazy" />
+          </a>
+        ))}
       </div>
 
       <div className="panel" style={{ maxWidth: 'none' }}>
