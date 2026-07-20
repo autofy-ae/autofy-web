@@ -131,6 +131,10 @@ export default function SellPage() {
       setError('Make, model, year, and price are required.');
       return;
     }
+    if (!finalTrim) {
+      setError('Trim is required.');
+      return;
+    }
     if (!mileage) {
       setError('Kilometers driven is required.');
       return;
@@ -161,7 +165,7 @@ export default function SellPage() {
         mileage: mileage ? Number(mileage) : null,
         location: location.trim() || null,
         description: description.trim() || null,
-        trim: finalTrim || null,
+        trim: finalTrim,
         specification: specification || null,
         interior_color: finalInteriorColor || null,
         exterior_color: finalExteriorColor || null,
@@ -263,7 +267,7 @@ export default function SellPage() {
         </div>
         <div className="row2">
           <div className="field">
-            <label>Trim (optional)</label>
+            <label>Trim</label>
             {(() => {
               const finalMakeNow = make === 'Other' ? customMake.trim() : make;
               const finalModelNow = model === 'Other' ? customModel.trim() : model;
@@ -274,7 +278,7 @@ export default function SellPage() {
               return (
                 <>
                   <select value={trim} onChange={(e) => setTrim(e.target.value)}>
-                    <option value="">Not specified</option>
+                    <option value="">Select trim</option>
                     {curated.map((t) => (<option key={t} value={t}>{t}</option>))}
                     <option value="Other">Other (type below)</option>
                   </select>
