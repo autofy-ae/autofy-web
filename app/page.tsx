@@ -182,14 +182,14 @@ export default function BrowsePage() {
       <div className="filter-bar">
         <div className="f-field">
           <label>Make</label>
-          <select value={make} onChange={(e) => { setMake(e.target.value); setModel(''); }}>
+          <select value={make} onChange={(e) => { setMake(e.target.value); setModel(''); setTrim(''); }}>
             <option value="">All makes</option>
             {makes.map((m) => (<option key={m} value={m}>{m}</option>))}
           </select>
         </div>
         <div className="f-field">
           <label>Model</label>
-          <select value={model} onChange={(e) => setModel(e.target.value)}>
+          <select value={model} onChange={(e) => { setModel(e.target.value); setTrim(''); }}>
             <option value="">All models</option>
             {availableModels.map((m) => (<option key={m} value={m}>{m}</option>))}
           </select>
@@ -228,7 +228,11 @@ export default function BrowsePage() {
             {(() => {
               const curated = trimsFor(make, model);
               if (curated.length === 0) {
-                return <input type="text" placeholder="Any" value={trim} onChange={(e) => setTrim(e.target.value)} />;
+                return (
+                  <select value="" disabled onChange={() => {}}>
+                    <option value="">{make && model ? 'No preset trims for this model' : 'Select make & model first'}</option>
+                  </select>
+                );
               }
               return (
                 <select value={trim} onChange={(e) => setTrim(e.target.value)}>
