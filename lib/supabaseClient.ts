@@ -34,6 +34,15 @@ export type Listing = {
   seats: number | null;
   horsepower: string | null;
   horsepower_exact: number | null;
+  service_history: string | null;
+  accident_history: string | null;
+  warranty: boolean | null;
+  owners: string | null;
+  interior_condition: string | null;
+  paint_quality: string | null;
+  ppf_coating: boolean | null;
+  tyre_condition: string | null;
+  import_specs: string | null;
 };
 
 export type Profile = {

@@ -6,6 +6,7 @@ import { supabase, Listing } from '@/lib/supabaseClient';
 import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES } from '@/lib/vehicleOptions';
 import { UAE_CITIES } from '@/lib/uaeCities';
 import { MAKE_MODELS } from '@/lib/carModels';
+import { computeRating } from '@/lib/rating';
 
 type Row = Listing & { thumb: string | null };
 
@@ -334,27 +335,37 @@ export default function BrowsePage() {
             <div className="body">
               <h3>{l.year} {l.make} {l.model}{l.trim ? ` ${l.trim}` : ''}</h3>
               <div className="meta">{l.mileage ? `${l.mileage.toLocaleString('en-US')} km · ` : ''}{l.location || 'Location not listed'}</div>
-              {(l.engine || l.horsepower_exact || l.exterior_color || l.interior_color) && (
-                <div className="specs-row" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  {(l.engine || l.horsepower_exact) && (
-                    <span className="mono" style={{ fontSize: 12, color: 'var(--ink-soft)' }}>
-                      {l.engine}{l.engine && l.horsepower_exact ? ' | ' : ''}{l.horsepower_exact ? <>{l.horsepower_exact}<span style={{ fontFamily: 'Inter, sans-serif', marginLeft: 3 }}>Bhp</span></> : ''}
-                    </span>
-                  )}
-                  {(l.exterior_color || l.interior_color) && (
-                    <span style={{ display: 'inline-flex', gap: 4 }}>
-                      <span
-                        title={l.exterior_color ? `Exterior: ${l.exterior_color}` : undefined}
-                        style={{ width: 12, height: 12, borderRadius: '50%', background: swatchColor(l.exterior_color), border: '1.5px solid rgba(0,0,0,0.55)', display: 'inline-block' }}
-                      />
-                      <span
-                        title={l.interior_color ? `Interior: ${l.interior_color}` : undefined}
-                        style={{ width: 12, height: 12, borderRadius: '50%', background: swatchColor(l.interior_color), border: '1.5px solid rgba(0,0,0,0.55)', display: 'inline-block' }}
-                      />
-                    </span>
-                  )}
-                </div>
-              )}
+              {(() => {
+                const rating = computeRating(l);
+                return (l.engine || l.horsepower_exact || l.exterior_color || l.interior_color || rating) && (
+                  <div className="specs-row" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                    {(l.engine || l.horsepower_exact) && (
+                      <span className="mono" style={{ fontSize: 12, color: 'var(--ink-soft)' }}>
+                        {l.engine}{l.engine && l.horsepower_exact ? ' | ' : ''}{l.horsepower_exact ? <>{l.horsepower_exact}<span style={{ fontFamily: 'Inter, sans-serif', marginLeft: 3 }}>Bhp</span></> : ''}
+                      </span>
+                    )}
+                    {(l.exterior_color || l.interior_color) && (
+                      <span style={{ display: 'inline-flex', gap: 4 }}>
+                        <span
+                          title={l.exterior_color ? `Exterior: ${l.exterior_color}` : undefined}
+                          style={{ width: 12, height: 12, borderRadius: '50%', background: swatchColor(l.exterior_color), border: '1.5px solid rgba(0,0,0,0.55)', display: 'inline-block' }}
+                        />
+                        <span
+                          title={l.interior_color ? `Interior: ${l.interior_color}` : undefined}
+                          style={{ width: 12, height: 12, borderRadius: '50%', background: swatchColor(l.interior_color), border: '1.5px solid rgba(0,0,0,0.55)', display: 'inline-block' }}
+                        />
+                      </span>
+                    )}
+                    {rating && (
+                      <span title={`Condition rating: ${rating.stars}/3`} style={{ display: 'inline-flex', gap: 1, fontSize: 12, letterSpacing: 1 }}>
+                        {[1, 2, 3].map((n) => (
+                          <span key={n} style={{ color: n <= rating.stars ? 'var(--maroon)' : 'var(--line)' }}>★</span>
+                        ))}
+                      </span>
+                    )}
+                  </div>
+                );
+              })()}
               <div className="foot">
                 <span>{timeAgo(l.created_at)}</span>
               </div>

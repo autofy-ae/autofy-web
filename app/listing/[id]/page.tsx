@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { supabase, Listing, ListingPhoto, Profile } from '@/lib/supabaseClient';
+import { computeRating } from '@/lib/rating';
 
 function formatPrice(p: number) {
   return 'AED ' + Number(p).toLocaleString('en-US');
@@ -89,9 +90,21 @@ export default function ListingDetailPage() {
       </div>
 
       <h2 className="display" style={{ fontSize: 22, textTransform: 'none', margin: '0 0 8px', color: 'var(--ink-soft)', fontWeight: 400 }}>
-        {listing.year} {listing.make} {listing.model}
+        {listing.year} {listing.make} {listing.model}{listing.trim ? ` ${listing.trim}` : ''}
       </h2>
-      <div className="mono" style={{ fontWeight: 700, fontSize: 30, letterSpacing: '-0.01em', color: 'var(--maroon)' }}>{formatPrice(listing.price)}</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+        <div className="mono" style={{ fontWeight: 700, fontSize: 30, letterSpacing: '-0.01em', color: 'var(--maroon)' }}>{formatPrice(listing.price)}</div>
+        {(() => {
+          const rating = computeRating(listing);
+          return rating && (
+            <span title={`Condition rating: ${rating.stars}/3`} style={{ display: 'inline-flex', gap: 2, fontSize: 18 }}>
+              {[1, 2, 3].map((n) => (
+                <span key={n} style={{ color: n <= rating.stars ? 'var(--maroon)' : 'var(--line)' }}>★</span>
+              ))}
+            </span>
+          );
+        })()}
+      </div>
 
       <div className="spec-grid">
         <div><div className="k">Year</div><div className="v">{listing.year}</div></div>
@@ -107,6 +120,15 @@ export default function ListingDetailPage() {
         <div><div className="k">Transmission</div><div className="v">{listing.transmission || '—'}</div></div>
         <div><div className="k">Seats</div><div className="v">{listing.seats ? (listing.seats >= 8 ? '8+' : listing.seats) : '—'}</div></div>
         <div><div className="k">Horsepower</div><div className="v">{listing.horsepower_exact ? `${listing.horsepower_exact} bhp` : (listing.horsepower || '—')}</div></div>
+        {listing.service_history && <div><div className="k">Service history</div><div className="v">{listing.service_history}</div></div>}
+        {listing.accident_history && <div><div className="k">Accident history</div><div className="v">{listing.accident_history}</div></div>}
+        {(listing.warranty !== null && listing.warranty !== undefined) && <div><div className="k">Under warranty</div><div className="v">{listing.warranty ? 'Yes' : 'No'}</div></div>}
+        {listing.owners && <div><div className="k">Owners</div><div className="v">{listing.owners}</div></div>}
+        {listing.interior_condition && <div><div className="k">Interior condition</div><div className="v">{listing.interior_condition}</div></div>}
+        {listing.paint_quality && <div><div className="k">Paint quality</div><div className="v">{listing.paint_quality}</div></div>}
+        {(listing.ppf_coating !== null && listing.ppf_coating !== undefined) && <div><div className="k">PPF / ceramic coating</div><div className="v">{listing.ppf_coating ? 'Yes' : 'No'}</div></div>}
+        {listing.tyre_condition && <div><div className="k">Tyre condition</div><div className="v">{listing.tyre_condition}</div></div>}
+        {listing.import_specs && <div><div className="k">Import specs</div><div className="v">{listing.import_specs}</div></div>}
         <div><div className="k">Listed</div><div className="v">{timeAgo(listing.created_at)}</div></div>
       </div>
 

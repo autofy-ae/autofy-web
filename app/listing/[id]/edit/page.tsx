@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase, ListingPhoto } from '@/lib/supabaseClient';
 import { useAuth } from '@/components/AuthContext';
-import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES, rangeForExactHorsepower } from '@/lib/vehicleOptions';
+import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES, rangeForExactHorsepower, SERVICE_HISTORY_OPTIONS, ACCIDENT_HISTORY_OPTIONS, OWNERS_OPTIONS, INTERIOR_CONDITION_OPTIONS, PAINT_QUALITY_OPTIONS, TYRE_CONDITION_OPTIONS, IMPORT_SPECS_OPTIONS } from '@/lib/vehicleOptions';
 import { UAE_CITIES } from '@/lib/uaeCities';
 import { MAKE_MODELS } from '@/lib/carModels';
 import { compressImage } from '@/lib/compressImage';
@@ -45,6 +45,15 @@ export default function EditListingPage() {
   const [seats, setSeats] = useState('');
   const [horsepower, setHorsepower] = useState('');
   const [horsepowerExact, setHorsepowerExact] = useState('');
+  const [serviceHistory, setServiceHistory] = useState('');
+  const [accidentHistory, setAccidentHistory] = useState('');
+  const [warranty, setWarranty] = useState('');
+  const [owners, setOwners] = useState('');
+  const [interiorCondition, setInteriorCondition] = useState('');
+  const [paintQuality, setPaintQuality] = useState('');
+  const [ppfCoating, setPpfCoating] = useState('');
+  const [tyreCondition, setTyreCondition] = useState('');
+  const [importSpecs, setImportSpecs] = useState('');
 
   const [existingPhotos, setExistingPhotos] = useState<ListingPhoto[]>([]);
   const [removedPhotoIds, setRemovedPhotoIds] = useState<string[]>([]);
@@ -90,6 +99,15 @@ export default function EditListingPage() {
       setSeats(listing.seats != null ? String(listing.seats) : '');
       setHorsepower(listing.horsepower || '');
       setHorsepowerExact(listing.horsepower_exact != null ? String(listing.horsepower_exact) : '');
+      setServiceHistory(listing.service_history || '');
+      setAccidentHistory(listing.accident_history || '');
+      setWarranty(listing.warranty === null || listing.warranty === undefined ? '' : (listing.warranty ? 'yes' : 'no'));
+      setOwners(listing.owners || '');
+      setInteriorCondition(listing.interior_condition || '');
+      setPaintQuality(listing.paint_quality || '');
+      setPpfCoating(listing.ppf_coating === null || listing.ppf_coating === undefined ? '' : (listing.ppf_coating ? 'yes' : 'no'));
+      setTyreCondition(listing.tyre_condition || '');
+      setImportSpecs(listing.import_specs || '');
 
       const { data: photos } = await supabase.from('listing_photos').select('*').eq('listing_id', id).order('position', { ascending: true });
       setExistingPhotos((photos || []) as ListingPhoto[]);
@@ -211,7 +229,16 @@ export default function EditListingPage() {
         transmission: transmission || null,
         seats: seats ? Number(seats) : null,
         horsepower: horsepower || null,
-        horsepower_exact: horsepowerExact ? Number(horsepowerExact) : null
+        horsepower_exact: horsepowerExact ? Number(horsepowerExact) : null,
+        service_history: serviceHistory || null,
+        accident_history: accidentHistory || null,
+        warranty: warranty === '' ? null : warranty === 'yes',
+        owners: owners || null,
+        interior_condition: interiorCondition || null,
+        paint_quality: paintQuality || null,
+        ppf_coating: ppfCoating === '' ? null : ppfCoating === 'yes',
+        tyre_condition: tyreCondition || null,
+        import_specs: importSpecs || null
       })
       .eq('id', id);
 
@@ -395,6 +422,83 @@ export default function EditListingPage() {
               style={{ marginTop: 8 }}
             />
           </div>
+        </div>
+        <div className="field">
+          <label>Condition &amp; history (optional)</label>
+          <div className="hint" style={{ margin: '0 0 10px' }}>Answering these gives your listing a star rating buyers can see. Skip any you're unsure of.</div>
+        </div>
+        <div className="row2">
+          <div className="field">
+            <label>Service history</label>
+            <select value={serviceHistory} onChange={(e) => setServiceHistory(e.target.value)}>
+              <option value="">Not specified</option>
+              {SERVICE_HISTORY_OPTIONS.map((s) => (<option key={s} value={s}>{s}</option>))}
+            </select>
+          </div>
+          <div className="field">
+            <label>Accident history</label>
+            <select value={accidentHistory} onChange={(e) => setAccidentHistory(e.target.value)}>
+              <option value="">Not specified</option>
+              {ACCIDENT_HISTORY_OPTIONS.map((a) => (<option key={a} value={a}>{a}</option>))}
+            </select>
+          </div>
+        </div>
+        <div className="row2">
+          <div className="field">
+            <label>Under warranty</label>
+            <select value={warranty} onChange={(e) => setWarranty(e.target.value)}>
+              <option value="">Not specified</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div className="field">
+            <label>Number of owners</label>
+            <select value={owners} onChange={(e) => setOwners(e.target.value)}>
+              <option value="">Not specified</option>
+              {OWNERS_OPTIONS.map((o) => (<option key={o} value={o}>{o}</option>))}
+            </select>
+          </div>
+        </div>
+        <div className="row2">
+          <div className="field">
+            <label>Interior condition</label>
+            <select value={interiorCondition} onChange={(e) => setInteriorCondition(e.target.value)}>
+              <option value="">Not specified</option>
+              {INTERIOR_CONDITION_OPTIONS.map((i) => (<option key={i} value={i}>{i}</option>))}
+            </select>
+          </div>
+          <div className="field">
+            <label>Paint quality</label>
+            <select value={paintQuality} onChange={(e) => setPaintQuality(e.target.value)}>
+              <option value="">Not specified</option>
+              {PAINT_QUALITY_OPTIONS.map((p) => (<option key={p} value={p}>{p}</option>))}
+            </select>
+          </div>
+        </div>
+        <div className="row2">
+          <div className="field">
+            <label>PPF / ceramic coating</label>
+            <select value={ppfCoating} onChange={(e) => setPpfCoating(e.target.value)}>
+              <option value="">Not specified</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div className="field">
+            <label>Tyre condition</label>
+            <select value={tyreCondition} onChange={(e) => setTyreCondition(e.target.value)}>
+              <option value="">Not specified</option>
+              {TYRE_CONDITION_OPTIONS.map((t) => (<option key={t} value={t}>{t}</option>))}
+            </select>
+          </div>
+        </div>
+        <div className="field">
+          <label>Import specs</label>
+          <select value={importSpecs} onChange={(e) => setImportSpecs(e.target.value)}>
+            <option value="">Not specified</option>
+            {IMPORT_SPECS_OPTIONS.map((i) => (<option key={i} value={i}>{i}</option>))}
+          </select>
         </div>
         <div className="field">
           <label>Description</label>
