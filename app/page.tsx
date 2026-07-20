@@ -15,6 +15,30 @@ function formatPrice(p: number) {
   return 'AED ' + Number(p).toLocaleString('en-US');
 }
 
+const COLOR_SWATCHES: Record<string, string> = {
+  White: '#FFFFFF',
+  Black: '#1A1A1A',
+  Silver: '#C4C4C4',
+  Gray: '#808080',
+  Red: '#B3261E',
+  Blue: '#2A4B8D',
+  Green: '#2E5E3E',
+  Yellow: '#E8C547',
+  Gold: '#C9A84C',
+  Beige: '#E3D2B4',
+  'Beige/Tan': '#E3D2B4',
+  Brown: '#5C4033',
+  Orange: '#D2691E',
+  Bronze: '#8C6A3F',
+  Pink: '#E8A0BF',
+  Other: '#9A9A9A',
+};
+
+function swatchColor(name: string | null | undefined): string {
+  if (!name) return '#D9D6CE';
+  return COLOR_SWATCHES[name] || '#D9D6CE';
+}
+
 function timeAgo(ts: string) {
   const s = Math.floor((Date.now() - new Date(ts).getTime()) / 1000);
   if (s < 60) return 'just now';
@@ -308,8 +332,25 @@ export default function BrowsePage() {
               <div className="price-tag mono">{formatPrice(l.price)}</div>
             </div>
             <div className="body">
-              <h3>{l.year} {l.make} {l.model}</h3>
+              <h3>{l.year} {l.make} {l.model}{l.trim ? ` ${l.trim}` : ''}</h3>
               <div className="meta">{l.mileage ? `${l.mileage.toLocaleString('en-US')} km · ` : ''}{l.location || 'Location not listed'}</div>
+              {(l.engine || l.exterior_color || l.interior_color) && (
+                <div className="specs-row" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                  {l.engine && <span className="mono" style={{ fontSize: 12, color: 'var(--ink-soft)' }}>{l.engine}</span>}
+                  {(l.exterior_color || l.interior_color) && (
+                    <span style={{ display: 'inline-flex', gap: 4 }}>
+                      <span
+                        title={l.exterior_color ? `Exterior: ${l.exterior_color}` : undefined}
+                        style={{ width: 12, height: 12, borderRadius: '50%', background: swatchColor(l.exterior_color), border: '1px solid var(--line)', display: 'inline-block' }}
+                      />
+                      <span
+                        title={l.interior_color ? `Interior: ${l.interior_color}` : undefined}
+                        style={{ width: 12, height: 12, borderRadius: '50%', background: swatchColor(l.interior_color), border: '1px solid var(--line)', display: 'inline-block' }}
+                      />
+                    </span>
+                  )}
+                </div>
+              )}
               <div className="foot">
                 <span>{timeAgo(l.created_at)}</span>
               </div>
