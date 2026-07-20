@@ -75,6 +75,7 @@ export default function BrowsePage() {
   const [transmission, setTransmission] = useState('');
   const [seats, setSeats] = useState('');
   const [horsepower, setHorsepower] = useState('');
+  const [minRating, setMinRating] = useState('');
 
   useEffect(() => {
     async function load() {
@@ -120,13 +121,13 @@ export default function BrowsePage() {
 
   const quickActive = make || model || location || minPrice || maxPrice;
   const advancedActive = trim || specification || minYear || maxYear || minKm || maxKm || interiorColor ||
-    exteriorColor || drivetrain || fuelType || engine || transmission || seats || horsepower;
+    exteriorColor || drivetrain || fuelType || engine || transmission || seats || horsepower || minRating;
 
   function clearAll() {
     setMake(''); setModel(''); setLocation(''); setMinPrice(''); setMaxPrice('');
     setTrim(''); setSpecification(''); setMinYear(''); setMaxYear(''); setMinKm(''); setMaxKm('');
     setInteriorColor(''); setExteriorColor(''); setDrivetrain(''); setFuelType('');
-    setEngine(''); setTransmission(''); setSeats(''); setHorsepower('');
+    setEngine(''); setTransmission(''); setSeats(''); setHorsepower(''); setMinRating('');
   }
 
   function handleSearch() {
@@ -159,6 +160,10 @@ export default function BrowsePage() {
       if (wanted === 6 ? has < 6 : has !== wanted) return false;
     }
     if (horsepower && r.horsepower !== horsepower) return false;
+    if (minRating) {
+      const rating = computeRating(r);
+      if (!rating || rating.stars < Number(minRating)) return false;
+    }
     return true;
   });
 
@@ -298,6 +303,15 @@ export default function BrowsePage() {
             <select value={horsepower} onChange={(e) => setHorsepower(e.target.value)}>
               <option value="">Any</option>
               {HORSEPOWER_RANGES.map((h) => (<option key={h} value={h}>{h}</option>))}
+            </select>
+          </div>
+          <div className="f-field">
+            <label>Minimum rating</label>
+            <select value={minRating} onChange={(e) => setMinRating(e.target.value)}>
+              <option value="">Any</option>
+              <option value="1">★ &amp; up</option>
+              <option value="2">★★ &amp; up</option>
+              <option value="3">★★★ only</option>
             </select>
           </div>
         </div>
