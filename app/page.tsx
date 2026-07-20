@@ -338,7 +338,7 @@ export default function BrowsePage() {
                 <div className="specs-row" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
                   {(l.engine || l.horsepower_exact) && (
                     <span className="mono" style={{ fontSize: 12, color: 'var(--ink-soft)' }}>
-                      {l.engine}{l.engine && l.horsepower_exact ? ' | ' : ''}{l.horsepower_exact ? `${l.horsepower_exact} Bhp` : ''}
+                      {l.engine}{l.engine && l.horsepower_exact ? ' | ' : ''}{l.horsepower_exact ? <>{l.horsepower_exact}<span style={{ fontFamily: 'Inter, sans-serif', marginLeft: 3 }}>Bhp</span></> : ''}
                     </span>
                   )}
                   {(l.exterior_color || l.interior_color) && (
