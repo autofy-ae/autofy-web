@@ -358,6 +358,9 @@ export default function BrowsePage() {
                         {l.engine}{l.engine && l.horsepower_exact ? ' | ' : ''}{l.horsepower_exact ? <>{l.horsepower_exact}<span style={{ fontFamily: 'Inter, sans-serif', marginLeft: 3 }}>Bhp</span></> : ''}
                       </span>
                     )}
+                    {(l.engine || l.horsepower_exact) && (l.exterior_color || l.interior_color) && (
+                      <span style={{ color: 'var(--ink-soft)', fontSize: 12 }}>|</span>
+                    )}
                     {(l.exterior_color || l.interior_color) && (
                       <span style={{ display: 'inline-flex', gap: 4 }}>
                         <span
