@@ -334,9 +334,13 @@ export default function BrowsePage() {
             <div className="body">
               <h3>{l.year} {l.make} {l.model}{l.trim ? ` ${l.trim}` : ''}</h3>
               <div className="meta">{l.mileage ? `${l.mileage.toLocaleString('en-US')} km · ` : ''}{l.location || 'Location not listed'}</div>
-              {(l.engine || l.exterior_color || l.interior_color) && (
+              {(l.engine || l.horsepower_exact || l.exterior_color || l.interior_color) && (
                 <div className="specs-row" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  {l.engine && <span className="mono" style={{ fontSize: 12, color: 'var(--ink-soft)' }}>{l.engine}</span>}
+                  {(l.engine || l.horsepower_exact) && (
+                    <span className="mono" style={{ fontSize: 12, color: 'var(--ink-soft)' }}>
+                      {l.engine}{l.engine && l.horsepower_exact ? ' | ' : ''}{l.horsepower_exact ? `${l.horsepower_exact} Bhp` : ''}
+                    </span>
+                  )}
                   {(l.exterior_color || l.interior_color) && (
                     <span style={{ display: 'inline-flex', gap: 4 }}>
                       <span
