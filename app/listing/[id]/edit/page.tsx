@@ -8,6 +8,7 @@ import { useAuth } from '@/components/AuthContext';
 import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES, rangeForExactHorsepower, SERVICE_HISTORY_OPTIONS, ACCIDENT_HISTORY_OPTIONS, OWNERS_OPTIONS, INTERIOR_CONDITION_OPTIONS, PAINT_QUALITY_OPTIONS, TYRE_CONDITION_OPTIONS, IMPORT_SPECS_OPTIONS } from '@/lib/vehicleOptions';
 import { UAE_CITIES } from '@/lib/uaeCities';
 import { MAKE_MODELS } from '@/lib/carModels';
+import { trimsFor } from '@/lib/carTrims';
 import { compressImage } from '@/lib/compressImage';
 
 const MAX_PHOTOS = 10;
@@ -28,6 +29,7 @@ export default function EditListingPage() {
   const [model, setModel] = useState('');
   const [customModel, setCustomModel] = useState('');
   const [trim, setTrim] = useState('');
+  const [trimCustom, setTrimCustom] = useState('');
   const [year, setYear] = useState('');
   const [price, setPrice] = useState('');
   const [mileage, setMileage] = useState('');
@@ -79,7 +81,13 @@ export default function EditListingPage() {
       setModel(modelsForMake.includes(listing.model) ? listing.model : 'Other');
       if (!modelsForMake.includes(listing.model)) setCustomModel(listing.model);
 
-      setTrim(listing.trim || '');
+      const curatedTrims = trimsFor(listing.make, listing.model);
+      if (listing.trim && curatedTrims.length > 0 && !curatedTrims.includes(listing.trim)) {
+        setTrim('Other');
+        setTrimCustom(listing.trim);
+      } else {
+        setTrim(listing.trim || '');
+      }
       setYear(String(listing.year));
       setPrice(String(listing.price));
       setMileage(listing.mileage != null ? String(listing.mileage) : '');
@@ -194,6 +202,10 @@ export default function EditListingPage() {
     setError('');
     const finalMake = make === 'Other' ? customMake.trim() : make;
     const finalModel = model === 'Other' ? customModel.trim() : model;
+    const curatedTrims = trimsFor(finalMake, finalModel);
+    const finalTrim = curatedTrims.length > 0
+      ? (trim === 'Other' ? trimCustom.trim() : trim)
+      : trim.trim();
     const finalInteriorColor = interiorColor === 'Other' ? customInteriorColor.trim() : interiorColor;
     const finalExteriorColor = exteriorColor === 'Other' ? customExteriorColor.trim() : exteriorColor;
 
@@ -219,7 +231,7 @@ export default function EditListingPage() {
         mileage: mileage ? Number(mileage) : null,
         location: location.trim() || null,
         description: description.trim() || null,
-        trim: trim.trim() || null,
+        trim: finalTrim || null,
         specification: specification || null,
         interior_color: finalInteriorColor || null,
         exterior_color: finalExteriorColor || null,
@@ -300,7 +312,7 @@ export default function EditListingPage() {
         <div className="row2">
           <div className="field">
             <label>Make</label>
-            <select value={make} onChange={(e) => { setMake(e.target.value); setModel(''); }}>
+            <select value={make} onChange={(e) => { setMake(e.target.value); setModel(''); setTrim(''); setTrimCustom(''); }}>
               <option value="">Select a make</option>
               {MAKES.map((m) => (<option key={m} value={m}>{m}</option>))}
               <option value="Other">Other</option>
@@ -311,7 +323,7 @@ export default function EditListingPage() {
           </div>
           <div className="field">
             <label>Model</label>
-            <select value={model} onChange={(e) => setModel(e.target.value)} disabled={!make}>
+            <select value={model} onChange={(e) => { setModel(e.target.value); setTrim(''); setTrimCustom(''); }} disabled={!make}>
               <option value="">{make ? 'Select a model' : 'Select a make first'}</option>
               {make && make !== 'Other' && (MAKE_MODELS[make] || []).map((m) => (<option key={m} value={m}>{m}</option>))}
               <option value="Other">Other</option>
@@ -322,7 +334,35 @@ export default function EditListingPage() {
           </div>
         </div>
         <div className="row2">
-          <div className="field"><label>Trim (optional)</label><input type="text" placeholder="SE, Limited, etc." value={trim} onChange={(e) => setTrim(e.target.value)} /></div>
+          <div className="field">
+            <label>Trim (optional)</label>
+            {(() => {
+              const finalMakeNow = make === 'Other' ? customMake.trim() : make;
+              const finalModelNow = model === 'Other' ? customModel.trim() : model;
+              const curated = trimsFor(finalMakeNow, finalModelNow);
+              if (curated.length === 0) {
+                return <input type="text" placeholder="SE, Limited, etc." value={trim} onChange={(e) => setTrim(e.target.value)} />;
+              }
+              return (
+                <>
+                  <select value={trim} onChange={(e) => setTrim(e.target.value)}>
+                    <option value="">Not specified</option>
+                    {curated.map((t) => (<option key={t} value={t}>{t}</option>))}
+                    <option value="Other">Other (type below)</option>
+                  </select>
+                  {trim === 'Other' && (
+                    <input
+                      type="text"
+                      placeholder="Enter trim"
+                      value={trimCustom}
+                      onChange={(e) => setTrimCustom(e.target.value)}
+                      style={{ marginTop: 8 }}
+                    />
+                  )}
+                </>
+              );
+            })()}
+          </div>
           <div className="field">
             <label>Specification</label>
             <select value={specification} onChange={(e) => setSpecification(e.target.value)}>

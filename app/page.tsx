@@ -7,6 +7,7 @@ import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_O
 import { UAE_CITIES } from '@/lib/uaeCities';
 import { MAKE_MODELS } from '@/lib/carModels';
 import { computeRating } from '@/lib/rating';
+import { trimsFor } from '@/lib/carTrims';
 
 type Row = Listing & { thumb: string | null };
 
@@ -224,7 +225,18 @@ export default function BrowsePage() {
         <div className="filter-bar" style={{ marginBottom: 22 }}>
           <div className="f-field">
             <label>Trim</label>
-            <input type="text" placeholder="Any" value={trim} onChange={(e) => setTrim(e.target.value)} />
+            {(() => {
+              const curated = trimsFor(make, model);
+              if (curated.length === 0) {
+                return <input type="text" placeholder="Any" value={trim} onChange={(e) => setTrim(e.target.value)} />;
+              }
+              return (
+                <select value={trim} onChange={(e) => setTrim(e.target.value)}>
+                  <option value="">Any</option>
+                  {curated.map((t) => (<option key={t} value={t}>{t}</option>))}
+                </select>
+              );
+            })()}
           </div>
           <div className="f-field">
             <label>Specification</label>
