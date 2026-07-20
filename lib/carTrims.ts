@@ -19,13 +19,14 @@ export const TRIMS: Record<string, Record<string, string[]>> = {
     Altima: ['S', 'SV', 'SL', 'SR'],
     'X-Trail': ['S', 'SV', 'SL'],
   },
+  // Verified against live dubizzle.com UAE trim facets, July 2026.
   Lexus: {
-    LS: ['460', '460L', '500', '500h', 'F Sport'],
-    ES: ['250', '300', '300h', '350', 'F Sport'],
-    IS: ['300', '350', 'F Sport'],
-    RX: ['350', '350h', '450h', '500h', 'F Sport'],
-    GX: ['460', '460 Premium', 'F Sport'],
-    LX: ['570', '600'],
+    LS: ['400', '430', '430 1/2 Ultra', '430 3/4 Ultra', '430 Full Ultra', '460', '460 1/2 Ultra', '460 3/4 Ultra', '460 F Sport', '460 Full Ultra', '460 Platinum', '460 Premier', '460 Prestige Plus', '460 Titanium', '350 Prestige', '500', '500 Platinum', '600h L'],
+    ES: ['250', '250 Platinum', '300', '300h', '300h Platinum', '300h Premier', '350', '350 F Sport', '350 Luxury', '350 Platinum', '350 Premier', '350 Prestige', '350 Ultra Luxury'],
+    IS: ['200t', '200t F Sport', '250', '250 F Sport', '250 F Sport Platinum', '250 Platinum', '250 Premier', '300', '300 F Sport', '300 Platinum', '300 Premier', '350', '350 F Sport', '350 F Sport Platinum', '350 F Sport Prestige', '500 F Sport'],
+    RX: ['330', '350', '350 F Sport', '350 Platinum', '350 Premier', '350 Prestige', '350 Standard', '350h Platinum', '350h Premier', '450h', '450h F Sport', '450h Platinum', '450h Prestige', '500h', '500h F Sport', '500h F Sport Performance'],
+    GX: ['460', '460 Luxury', '460 Platinum', '460 Premier', '460 Premium Plus'],
+    LX: ['470', '570 Base', '570 Black Edition', '570 Luxury', '570 Platinum', '570 Premier', '570 Signature', '570 Sport', '570 Sport S+', '600 Base', '600 F Sport', '600 Premier', '600 Premium', '600 Prestige', '600 Signature', '600 VIP', '700h F-Sport', '700h Signature', '700h VIP'],
     NX: ['250', '300', '350h', '450h+', 'F Sport'],
   },
   'Mercedes-Benz': {
