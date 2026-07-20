@@ -341,11 +341,11 @@ export default function BrowsePage() {
                     <span style={{ display: 'inline-flex', gap: 4 }}>
                       <span
                         title={l.exterior_color ? `Exterior: ${l.exterior_color}` : undefined}
-                        style={{ width: 12, height: 12, borderRadius: '50%', background: swatchColor(l.exterior_color), border: '1px solid var(--line)', display: 'inline-block' }}
+                        style={{ width: 12, height: 12, borderRadius: '50%', background: swatchColor(l.exterior_color), border: '1.5px solid rgba(0,0,0,0.55)', display: 'inline-block' }}
                       />
                       <span
                         title={l.interior_color ? `Interior: ${l.interior_color}` : undefined}
-                        style={{ width: 12, height: 12, borderRadius: '50%', background: swatchColor(l.interior_color), border: '1px solid var(--line)', display: 'inline-block' }}
+                        style={{ width: 12, height: 12, borderRadius: '50%', background: swatchColor(l.interior_color), border: '1.5px solid rgba(0,0,0,0.55)', display: 'inline-block' }}
                       />
                     </span>
                   )}
