@@ -402,6 +402,18 @@ export default function BrowsePage() {
               })()}
               <div className="foot">
                 <span>{timeAgo(l.created_at)}</span>
+                <span
+                  aria-hidden="true"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    width: 26, height: 26, borderRadius: '50%', background: 'var(--maroon)', flexShrink: 0
+                  }}
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="7" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                </span>
               </div>
             </div>
           </Link>
