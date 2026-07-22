@@ -361,7 +361,7 @@ export default function BrowsePage() {
             <div className="photo">
               {l.thumb ? (
                 <>
-                  <img className="photo-bg" src={l.thumb} alt="" aria-hidden="true" />
+                  <div className="photo-bg" style={{ backgroundImage: `url(${l.thumb})` }} aria-hidden="true" />
                   <img className="photo-fg" src={l.thumb} alt={`${l.year} ${l.make} ${l.model}`} />
                 </>
               ) : <div className="noimg">No photo</div>}

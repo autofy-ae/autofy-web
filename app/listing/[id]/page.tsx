@@ -68,7 +68,7 @@ export default function ListingDetailPage() {
       <div className="detail-photo" style={{ position: 'relative' }}>
         {photos.length > 0 ? (
           <>
-            <img className="detail-photo-bg" src={photos[activePhoto]?.url} alt="" aria-hidden="true" />
+            <div className="detail-photo-bg" style={{ backgroundImage: `url(${photos[activePhoto]?.url})` }} aria-hidden="true" />
             <img className="detail-photo-fg" src={photos[activePhoto]?.url} alt={`${listing.year} ${listing.make} ${listing.model}`} />
           </>
         ) : (
