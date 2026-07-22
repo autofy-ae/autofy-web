@@ -360,6 +360,7 @@ export default function BrowsePage() {
           <Link key={l.id} href={`/listing/${l.id}`} className="card">
             <div className="photo">
               {l.thumb ? <img src={l.thumb} alt={`${l.year} ${l.make} ${l.model}`} /> : <div className="noimg">No photo</div>}
+              {l.seller_type && <div className="seller-badge">{l.seller_type}</div>}
               <div className="price-tag mono">{formatPrice(l.price)}</div>
             </div>
             <div className="body">
