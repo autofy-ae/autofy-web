@@ -42,6 +42,13 @@ export default function ListingDetailPage() {
       setPhotos((p || []) as ListingPhoto[]);
       setSeller(s as Profile | null);
       setLoading(false);
+
+      // Preload every photo up front so left/right navigation is instant
+      // instead of waiting on a fresh network fetch per click.
+      (p || []).forEach((photo: ListingPhoto) => {
+        const img = new Image();
+        img.src = photo.url;
+      });
     }
     if (id) load();
   }, [id]);
