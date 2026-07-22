@@ -359,7 +359,12 @@ export default function BrowsePage() {
         {filtered.map((l) => (
           <Link key={l.id} href={`/listing/${l.id}`} className="card">
             <div className="photo">
-              {l.thumb ? <img src={l.thumb} alt={`${l.year} ${l.make} ${l.model}`} /> : <div className="noimg">No photo</div>}
+              {l.thumb ? (
+                <>
+                  <img className="photo-bg" src={l.thumb} alt="" aria-hidden="true" />
+                  <img className="photo-fg" src={l.thumb} alt={`${l.year} ${l.make} ${l.model}`} />
+                </>
+              ) : <div className="noimg">No photo</div>}
               {l.seller_type && <div className="seller-badge">{l.seller_type}</div>}
               <div className="price-tag mono">{formatPrice(l.price)}</div>
             </div>
