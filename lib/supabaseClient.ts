@@ -43,6 +43,7 @@ export type Listing = {
   ppf_coating: boolean | null;
   tyre_condition: string | null;
   import_specs: string | null;
+  seller_type: string | null;
 };
 
 export type Profile = {

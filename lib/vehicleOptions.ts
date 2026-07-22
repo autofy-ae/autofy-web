@@ -16,6 +16,8 @@ export const PAINT_QUALITY_OPTIONS = ['Decent', 'Good', 'Excellent'];
 export const TYRE_CONDITION_OPTIONS = ['Needs Replacement', 'Good', 'New'];
 export const IMPORT_SPECS_OPTIONS = ['Other', 'US Specs', 'GCC Specs'];
 
+export const SELLER_TYPES = ['Owner', 'Dealer', 'Trader', 'Importer'];
+
 export function rangeForExactHorsepower(hp: number): string {
   if (hp <= 151) return '0-151 bhp';
   if (hp <= 280) return '152-280 bhp';

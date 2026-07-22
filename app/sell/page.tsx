@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/components/AuthContext';
-import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES, rangeForExactHorsepower, SERVICE_HISTORY_OPTIONS, ACCIDENT_HISTORY_OPTIONS, OWNERS_OPTIONS, INTERIOR_CONDITION_OPTIONS, PAINT_QUALITY_OPTIONS, TYRE_CONDITION_OPTIONS, IMPORT_SPECS_OPTIONS } from '@/lib/vehicleOptions';
+import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES, rangeForExactHorsepower, SERVICE_HISTORY_OPTIONS, ACCIDENT_HISTORY_OPTIONS, OWNERS_OPTIONS, INTERIOR_CONDITION_OPTIONS, PAINT_QUALITY_OPTIONS, TYRE_CONDITION_OPTIONS, IMPORT_SPECS_OPTIONS, SELLER_TYPES } from '@/lib/vehicleOptions';
 import { UAE_CITIES } from '@/lib/uaeCities';
 import { MAKE_MODELS } from '@/lib/carModels';
 import { trimsFor } from '@/lib/carTrims';
@@ -28,6 +28,7 @@ export default function SellPage() {
   const [price, setPrice] = useState('');
   const [mileage, setMileage] = useState('');
   const [location, setLocation] = useState('');
+  const [sellerType, setSellerType] = useState('');
   const [description, setDescription] = useState('');
   const [specification, setSpecification] = useState('');
   const [interiorColor, setInteriorColor] = useState('');
@@ -154,6 +155,10 @@ export default function SellPage() {
       setError('Location is required.');
       return;
     }
+    if (!sellerType) {
+      setError('Seller type is required.');
+      return;
+    }
     if (!finalExteriorColor) {
       setError('Exterior color is required.');
       return;
@@ -195,7 +200,8 @@ export default function SellPage() {
         paint_quality: paintQuality || null,
         ppf_coating: ppfCoating === '' ? null : ppfCoating === 'yes',
         tyre_condition: tyreCondition || null,
-        import_specs: importSpecs || null
+        import_specs: importSpecs || null,
+        seller_type: sellerType
       })
       .select()
       .single();
@@ -325,6 +331,13 @@ export default function SellPage() {
             <select value={location} onChange={(e) => setLocation(e.target.value)}>
               <option value="">Select a city</option>
               {UAE_CITIES.map((c) => (<option key={c} value={c}>{c}</option>))}
+            </select>
+          </div>
+          <div className="field">
+            <label>Seller type</label>
+            <select value={sellerType} onChange={(e) => setSellerType(e.target.value)}>
+              <option value="">Select seller type</option>
+              {SELLER_TYPES.map((s) => (<option key={s} value={s}>{s}</option>))}
             </select>
           </div>
         </div>

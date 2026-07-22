@@ -122,6 +122,7 @@ export default function ListingDetailPage() {
         <div><div className="k">Kilometers</div><div className="v">{listing.mileage ? `${listing.mileage.toLocaleString('en-US')} km` : '—'}</div></div>
         <div><div className="k">Specification</div><div className="v">{listing.specification || '—'}</div></div>
         <div><div className="k">Location</div><div className="v">{listing.location || '—'}</div></div>
+        {listing.seller_type && <div><div className="k">Seller type</div><div className="v">{listing.seller_type}</div></div>}
         <div><div className="k">Exterior color</div><div className="v">{listing.exterior_color || '—'}</div></div>
         <div><div className="k">Interior color</div><div className="v">{listing.interior_color || '—'}</div></div>
         <div><div className="k">Drivetrain</div><div className="v">{listing.drivetrain || '—'}</div></div>

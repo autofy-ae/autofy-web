@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase, ListingPhoto } from '@/lib/supabaseClient';
 import { useAuth } from '@/components/AuthContext';
-import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES, rangeForExactHorsepower, SERVICE_HISTORY_OPTIONS, ACCIDENT_HISTORY_OPTIONS, OWNERS_OPTIONS, INTERIOR_CONDITION_OPTIONS, PAINT_QUALITY_OPTIONS, TYRE_CONDITION_OPTIONS, IMPORT_SPECS_OPTIONS } from '@/lib/vehicleOptions';
+import { SPECIFICATIONS, DRIVETRAINS, FUEL_TYPES, ENGINES, TRANSMISSIONS, SEAT_OPTIONS, EXTERIOR_COLORS, INTERIOR_COLORS, HORSEPOWER_RANGES, rangeForExactHorsepower, SERVICE_HISTORY_OPTIONS, ACCIDENT_HISTORY_OPTIONS, OWNERS_OPTIONS, INTERIOR_CONDITION_OPTIONS, PAINT_QUALITY_OPTIONS, TYRE_CONDITION_OPTIONS, IMPORT_SPECS_OPTIONS, SELLER_TYPES } from '@/lib/vehicleOptions';
 import { UAE_CITIES } from '@/lib/uaeCities';
 import { MAKE_MODELS } from '@/lib/carModels';
 import { trimsFor } from '@/lib/carTrims';
@@ -34,6 +34,7 @@ export default function EditListingPage() {
   const [price, setPrice] = useState('');
   const [mileage, setMileage] = useState('');
   const [location, setLocation] = useState('');
+  const [sellerType, setSellerType] = useState('');
   const [description, setDescription] = useState('');
   const [specification, setSpecification] = useState('');
   const [interiorColor, setInteriorColor] = useState('');
@@ -103,6 +104,7 @@ export default function EditListingPage() {
       setPrice(String(listing.price));
       setMileage(listing.mileage != null ? String(listing.mileage) : '');
       setLocation(listing.location || '');
+      setSellerType(listing.seller_type || '');
       setDescription(listing.description || '');
       setSpecification(listing.specification || '');
 
@@ -227,6 +229,7 @@ export default function EditListingPage() {
     if (!finalTrim) { setError('Trim is required.'); return; }
     if (!mileage) { setError('Kilometers driven is required.'); return; }
     if (!location) { setError('Location is required.'); return; }
+    if (!sellerType) { setError('Seller type is required.'); return; }
     if (!finalExteriorColor) { setError('Exterior color is required.'); return; }
     if (!finalInteriorColor) { setError('Interior color is required.'); return; }
 
@@ -262,7 +265,8 @@ export default function EditListingPage() {
         paint_quality: paintQuality || null,
         ppf_coating: ppfCoating === '' ? null : ppfCoating === 'yes',
         tyre_condition: tyreCondition || null,
-        import_specs: importSpecs || null
+        import_specs: importSpecs || null,
+        seller_type: sellerType
       })
       .eq('id', id);
 
@@ -394,6 +398,15 @@ export default function EditListingPage() {
             <select value={location} onChange={(e) => setLocation(e.target.value)}>
               <option value="">Select a city</option>
               {UAE_CITIES.map((c) => (<option key={c} value={c}>{c}</option>))}
+            </select>
+          </div>
+        </div>
+        <div className="row2">
+          <div className="field">
+            <label>Seller type</label>
+            <select value={sellerType} onChange={(e) => setSellerType(e.target.value)}>
+              <option value="">Select seller type</option>
+              {SELLER_TYPES.map((s) => (<option key={s} value={s}>{s}</option>))}
             </select>
           </div>
         </div>
