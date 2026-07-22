@@ -60,7 +60,10 @@ export default function ListingDetailPage() {
     <div style={{ maxWidth: 640, margin: '0 auto' }}>
       <div className="detail-photo" style={{ position: 'relative' }}>
         {photos.length > 0 ? (
-          <img src={photos[activePhoto]?.url} alt={`${listing.year} ${listing.make} ${listing.model}`} />
+          <>
+            <img className="detail-photo-bg" src={photos[activePhoto]?.url} alt="" aria-hidden="true" />
+            <img className="detail-photo-fg" src={photos[activePhoto]?.url} alt={`${listing.year} ${listing.make} ${listing.model}`} />
+          </>
         ) : (
           <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#B9C6CF' }} className="display">
             No photos provided
