@@ -68,6 +68,17 @@ export default function EditListingPage() {
   const [progress, setProgress] = useState('');
 
   useEffect(() => {
+    function handleBeforeUnload(e: BeforeUnloadEvent) {
+      if (busy) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [busy]);
+
+  useEffect(() => {
     async function load() {
       if (!id || !user) return;
       setLoadingListing(true);
@@ -600,13 +611,26 @@ export default function EditListingPage() {
         </div>
 
         {error && <div className="error-text">{error}</div>}
-        {busy && progress && <div className="success-text">{progress}</div>}
         <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
           <button className="btn" onClick={submitEdit} disabled={busy}>
             {busy ? 'Saving…' : 'Save changes'}
           </button>
           <Link href={`/listing/${id}`} className="btn secondary">Cancel</Link>
         </div>
+        {busy && (
+          <div
+            style={{
+              position: 'fixed', inset: 0, zIndex: 999, background: 'rgba(20,20,20,0.82)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24
+            }}
+          >
+            <div style={{ background: '#fff', borderRadius: 12, padding: '28px 32px', maxWidth: 360, textAlign: 'center', border: '1px solid var(--line)' }}>
+              <div className="display" style={{ fontSize: 20, marginBottom: 10, color: 'var(--maroon)' }}>Hang on there</div>
+              <div style={{ fontSize: 14, color: 'var(--ink)', marginBottom: 6 }}>{progress || 'Saving your changes…'}</div>
+              <div style={{ fontSize: 12.5, color: 'var(--ink-soft)' }}>Please don't close this tab or hit back until this finishes — your photos are still uploading.</div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

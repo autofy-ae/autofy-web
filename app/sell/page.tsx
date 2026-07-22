@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
@@ -116,6 +116,17 @@ export default function SellPage() {
       setHorsepower(rangeForExactHorsepower(Number(digitsOnly)));
     }
   }
+
+  useEffect(() => {
+    function handleBeforeUnload(e: BeforeUnloadEvent) {
+      if (busy) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [busy]);
 
   async function submitListing() {
     setError('');
@@ -511,10 +522,23 @@ export default function SellPage() {
         </div>
 
         {error && <div className="error-text">{error}</div>}
-        {busy && progress && <div className="success-text">{progress}</div>}
         <button className="btn" onClick={submitListing} disabled={busy} style={{ marginTop: 8 }}>
           {busy ? 'Posting…' : 'Post listing'}
         </button>
+        {busy && (
+          <div
+            style={{
+              position: 'fixed', inset: 0, zIndex: 999, background: 'rgba(20,20,20,0.82)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24
+            }}
+          >
+            <div style={{ background: '#fff', borderRadius: 12, padding: '28px 32px', maxWidth: 360, textAlign: 'center', border: '1px solid var(--line)' }}>
+              <div className="display" style={{ fontSize: 20, marginBottom: 10, color: 'var(--maroon)' }}>Hang on there</div>
+              <div style={{ fontSize: 14, color: 'var(--ink)', marginBottom: 6 }}>{progress || 'Posting your listing…'}</div>
+              <div style={{ fontSize: 12.5, color: 'var(--ink-soft)' }}>Please don't close this tab or hit back until this finishes — your photos are still uploading.</div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
