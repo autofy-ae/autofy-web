@@ -43,6 +43,10 @@ export default function ListingDetailPage() {
       setSeller(s as Profile | null);
       setLoading(false);
 
+      supabase.rpc('increment_listing_view', { p_listing_id: id }).then(({ error }) => {
+        if (error) console.error('view count', error);
+      });
+
       // Preload every photo up front so left/right navigation is instant
       // instead of waiting on a fresh network fetch per click.
       (p || []).forEach((photo: ListingPhoto) => {
@@ -52,6 +56,12 @@ export default function ListingDetailPage() {
     }
     if (id) load();
   }, [id]);
+
+  function trackContactClick() {
+    supabase.rpc('increment_listing_contact_click', { p_listing_id: id }).then(({ error }) => {
+      if (error) console.error('contact click count', error);
+    });
+  }
 
   if (loading) return <p style={{ color: 'var(--ink-soft)' }}>Loading…</p>;
   if (notFound || !listing) {
@@ -157,6 +167,7 @@ export default function ListingDetailPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Message on WhatsApp"
+                onClick={trackContactClick}
                 style={{ background: '#25D366', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '7px 10px' }}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="#0B0B0C" aria-hidden="true">
@@ -168,7 +179,7 @@ export default function ListingDetailPage() {
           ) : (
             <div className="contact-row">
               <span className="num mono">{seller.phone}</span>
-              <a href={`tel:${seller.phone.replace(/[^0-9+]/g, '')}`}>Call</a>
+              <a href={`tel:${seller.phone.replace(/[^0-9+]/g, '')}`} onClick={trackContactClick}>Call</a>
             </div>
           )}
         </div>

@@ -44,6 +44,8 @@ export type Listing = {
   tyre_condition: string | null;
   import_specs: string | null;
   seller_type: string | null;
+  view_count: number;
+  contact_click_count: number;
 };
 
 export type Profile = {
